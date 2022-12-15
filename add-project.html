@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <!-- Icon - IconMonster -->
+    <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
+    <!-- Mumble UI -->
+    <link rel="stylesheet" href="uikit/styles/uikit.css" />
+    <!-- Dev Search UI -->
+    <link rel="stylesheet" href="styles/app.css" />
+    <script src="js/auth.js"></script>
+    <title>DevModule - Connect with Developers!</title>
+</head>
+
+<body onload="verify()">
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container container--narrow">
+            <a href="/" class="header__logo">
+                <img src="images/logo.svg" alt="DevSearch Logo" />
+            </a>
+            <nav class="header__nav">
+                <input type="checkbox" id="responsive-menu" />
+                <label for="responsive-menu" class="toggle-menu">
+                    <span>Menu</span>
+                    <div class="toggle-menu__lines"></div>
+                </label>
+                <ul class="header__menu" id="navbar">
+                    <li class="header__menuItem"><a href="index.html">Developers</a></li>
+                    <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+                    <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
+                  </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="formPage my-xl">
+        <div class="content-box">
+            <div class="formWrapper">
+                <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+                <br>
+                
+                 <form class="form" method="POST" id="projectForm">
+                    <!-- Input:Text -->
+                    <div class="form__field">
+                        <label for="formInput#text">Title</label>
+                        <input class="input input--text" id="title" type="text" name="text"
+                            placeholder="Enter text" value="" required/>
+                    </div>
+                    <div class="form__field">
+                        <label for="formInput#text">Description</label>
+                        <textarea
+                        class="input input--textarea"
+                        name="message"
+                        id="description"
+                        placeholder="Write something awesome..."
+                        
+                      ></textarea>
+                    </div>
+                    <div class="form__field">
+                        <label for="formInput#text">Demo Link</label>
+                        <input class="input input--text" id="demoLink" type="text" name="text"
+                            placeholder="Enter text" value="" />
+                    </div>
+                    <div class="form__field">
+                        <label for="formInput#text">Source Code Link</label>
+                        <input class="input input--text" id="srcLink" type="text" name="text"
+                            placeholder="Enter text" value="" />
+                    </div>
+                    <!-- Input:Text -->
+                    
+
+                    
+                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+                    
+                </form>
+            </div>
+        </div>
+    </main>
+
+
+<script type="text/javascript">
+    let token = sessionStorage.getItem("token");
+    let projectForm = document.querySelector("#projectForm");
+    projectForm.onsubmit =async (e) => {
+        let projectTitle = document.getElementById('title').value;
+        let projectDescription = document.getElementById('description').value;
+        let srcLink = document.getElementById('srcLink').value;
+        let demoLink = document.getElementById('demoLink').value;
+        e.preventDefault();
+        data = {
+            'title':projectTitle,
+            'description':projectDescription,
+            'demo_link':demoLink,
+            'source_link':srcLink,
+            "vote_total": 0,
+            "vote_ratio": 0
+        };
+        console.log(data)
+        console.log(JSON.stringify(data))
+        let response = await fetch('http://127.0.0.1:8000/projects/create-project/', {
+        method: 'post',
+        headers:myHeaders,  
+        body: JSON.stringify(data),
+
+        });
+        if(response.status != 201){
+            alert("Unable to Add your project!")
+        }else{
+            let result = await response.json();
+            console.log(result);
+        }
+        alert("Project Added");
+        window.location.replace('/account.html')
+    };
+
+    // deleteBtn.onclick =async (e) => {
+    // e.preventDefault();
+    // let skillName = document.getElementById('name').value;
+    // let skillDescription = document.getElementById('description').value;
+    // data = {'name':skillName,'description':skillDescription};
+    // let response = await fetch('http://127.0.0.1:8000/skills/update-skill/'+id, {
+    //   method: 'put',
+    //   headers:myHeaders,  
+    //   body: JSON.stringify(data),
+
+    // });
+
+    // let result = await response.json();
+    //     console.log(result);
+    //     alert("Updated Skill");
+    //     window.location.replace('/account.html')
+    //    };
+    </script>
+</body>
+
+</html>

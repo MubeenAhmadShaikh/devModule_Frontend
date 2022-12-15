@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <!-- Icon - IconMonster -->
+  <!-- <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" /> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  <!-- Mumble UI -->
+  <link rel="stylesheet" href="uikit/styles/uikit.css" />
+  <!-- Dev Search UI -->
+  <link rel="stylesheet" href="styles/app.css" />
+
+  <title>DevModule - Connect with Developers!</title>
+</head>
+
+<body>
+  <!-- Header Section -->
+  <header class="header">
+    <div class="container container--narrow">
+      <a href="/" class="header__logo">
+        <img src="images/logo.svg" alt="DevModule Logo" />
+      </a>
+      <nav class="header__nav">
+        <input type="checkbox" id="responsive-menu" />
+        <label for="responsive-menu" class="toggle-menu">
+          <span>Menu</span>
+          <div class="toggle-menu__lines"></div>
+        </label>
+        <ul class="header__menu" id="navbar">
+          <li class="header__menuItem"><a href="index.html">Developers</a></li>
+          <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+          <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Section -->
+  <main class="profile my-md">
+    <div class="container">
+      <div class="layout ">
+        <div class="column column--1of3">
+          <div class="card text-center dev">
+
+          </div>
+        </div>
+        <div class="column column--2of3">
+          <div class="devInfo aboutdev">
+            
+          </div>
+          <div class="devInfo ">
+            <h3 class="devInfo__title skills">Skills</h3>
+            <div class="devInfo__skills devmajorskills">
+            </div>
+              <h3 class="devInfo__subtitle">Other Skills</h3>
+              <div class="devInfo__otherSkills devextraskills">
+              </div>
+          </div>
+          <div class="devInfo ">
+            <h3 class="devInfo__title">Projects</h3>
+            <div class="grid grid--two devprojects">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="../js/auth.js"></script>
+  <script type="text/javascript">
+    let token = sessionStorage.getItem("token");
+    let url = window.location.href
+    var id = url.substring(url.lastIndexOf('=') + 1);
+    async function main(){
+      if(!token){
+        const response = await fetch('http://127.0.0.1:8000/developers/profile-explore/'+id);
+        const data = await response.json();
+        showSingleDeveloper(data);
+      }else{
+        const response = await fetch('http://127.0.0.1:8000/developers/profile/'+id, {
+          method: 'GET',
+          headers: myHeaders,
+        });
+      const data = await response.json();
+      updateNavBar(data['user']);
+      showSingleDeveloper(data);
+      }
+
+    }
+
+    main();
+    // Without Async
+    //   if (!token){
+    //     let apidata = fetch('http://127.0.0.1:8000/developers/profile-explore/'+id)
+    //   .then((apidata)=>{
+    //     return apidata.json();
+    //   })
+    //   .then((actualdata)=>{
+    //     showSingleDeveloper(actualdata);
+    //   }).catch((error=>console.log(error)));
+    //   }else{
+    //   let apidata = fetch('http://127.0.0.1:8000/developers/profile/'+id, {
+    //         method: 'GET',
+    //         headers: myHeaders,
+    //       })
+    //     .then((apidata)=>{
+    //       return apidata.json();
+    //   })
+    //   .then((actualdata)=>{
+    //     updateNavBar(actualdata['user']);
+    //     showSingleDeveloper(actualdata);
+    //   })
+    //   .catch((error=>console.log(error)));
+    // };
+  </script>
+  
+  </body>
+  
+  </html>
