@@ -15,6 +15,7 @@
   <!-- Dev Search UI -->
   <link rel="stylesheet" href="styles/app.css" />
   <script type="text/javascript" src="js/auth.js"></script>
+  <script type="text/javascript" src="js/projects.js"></script>
   <title>DevModule - Connect with Developers!</title>
 </head>
 
@@ -73,40 +74,12 @@
     <section class="projectsList">
       <div class="container">
         <div class="grid grid--three" id="projectCard">
-          <div class="column">
-            <div class="card project">
-              <a href="single-project.html" class="project">
-                <img class="project__thumbnail" src="images/project-a.png" alt="project thumbnail" />
-                <div class="card__body">
-                  <h3 class="project__title">Yoga Studio Landing Page Website and Design</h3>
-                  <p><a class="project__author" href="profile.html">By Dennis Ivanov</a></p>
-                  <p class="project--rating">
-                    <span style="font-weight: bold;">98%</span> Postitive
-                    Feedback (72 Votes)
-                  </p>
-                  <div class="project__tags">
-                    <span class="tag tag--pill tag--main">
-                      <small>NextJS</small>
-                    </span>
-                    <span class="tag tag--pill tag--main">
-                      <small>GraphQL</small>
-                    </span>
-                    <span class="tag tag--pill tag--main">
-                      <small>TypeScript</small>
-                    </span>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-
           
-
         </div>
       </div>
     </section>
 
-    <div class="pagination">
+    <!-- <div class="pagination">
       <ul class="container">
         <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
         <li><a href="#" class="btn btn--sub">01</a></li>
@@ -121,8 +94,9 @@
         <li><a href="#" class="btn">10</a></li>
         <li><a href="#" class="btn">Next &#10095;</a></li>
       </ul>
-    </div>
+    </div> -->
   </main>
+  <!-- #BUG - Unable to add project alert -->
   <script type="text/javascript">
     //   $(window).load(function() {
     //   // Animate loader off screen
@@ -135,6 +109,7 @@
           method: 'GET',
         });
       const data = await response.json();
+      console.log(data);
       showProjects(data);
       }else{
         const response = await fetch('http://127.0.0.1:8000/projects', {
@@ -142,6 +117,7 @@
           headers: myHeaders,
         });
       const data = await response.json();
+      console.log(data);
       updateNavBar(data['user']);
       showProjects(data);
       }
@@ -149,33 +125,6 @@
     }
 
     main();
-  //   if (!token){
-  //     let apidata = fetch('http://127.0.0.1:8000/projects/projects-explore', {
-  //         method: 'GET',
-  //       })
-  //     .then((apidata)=>{
-  //       return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     showProjects(actualdata);
-  //   })
-  //   .catch((error=>console.log(error)));
-  //   }else{
-  //   let apidata = fetch('http://127.0.0.1:8000/projects', {
-  //         method: 'GET',
-  //         headers: myHeaders,
-  //       })
-  //     .then((apidata)=>{
-  //       return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     updateNavBar(actualdata['user']);
-  //     showProjects(actualdata);
-  //   })
-  //   .catch((error=>console.log(error)));
-    
-
-  // };
       
     
 
@@ -184,6 +133,4 @@
 
 </html>
 
-response from API is 
-{projects:Array(23), profiles:Array(6)}
-projects
+

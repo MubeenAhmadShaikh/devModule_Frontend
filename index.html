@@ -50,10 +50,10 @@
         </div>
 
         <div class="hero-section__search">
-          <form class="form" action="#" method="get">
+          <form class="form"  id="searchForm">
             <div class="form__field">
               <label for="formInput#search">Search Developers </label>
-              <input class="input input--text" id="formInput#search" type="text" name="text"
+              <input class="input input--text" id="formInput#search" type="text" name="query"
                 placeholder="Search by developer name" />
             </div>
 
@@ -66,79 +66,12 @@
     <section class="devlist">
       <div class="container">
         <div class="grid grid--three" id="dev-list">
-          <div class="column card">
-            <div class="dev">
-              <a href="/profile.html" class="card__body">
-                <div class="dev__profile">
-                  <img class="avatar avatar--md" src="https://avatars.githubusercontent.com/u/22437186" alt="image" />
-                  <div class="dev__meta">
-                    <h3>Shahriar P. Shuvo</h3>
-                    <h5>FullStack Web Designer & Developer</h5>
-                  </div>
-                </div>
-                <p class="dev__info">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt,
-                  veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate
-                  animi, exercitationem molestias nam doloremque architecto odit.
-                </p>
-                <div class="dev__skills">
-                  <span class="tag tag--pill tag--main">
-                    <small>JavaScript</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>React</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>SCSS</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>Nodejs</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>Express</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>GraphQL</small>
-                  </span>
-                </div>
-              </a>
-            </div>
-          </div>
-          
-          <div class="column card">
-            <div class="dev">
-              <a href="/profile.html" class="card__body">
-                <div class="dev__profile">
-                  <img class="avatar avatar--md" src="https://avatars.githubusercontent.com/u/22437186" alt="image" />
-                  <div class="dev__meta">
-                    <h3>Shahriar P. Shuvo</h3>
-                    <h5>FullStack Web Designer & Developer</h5>
-                  </div>
-                </div>
-                <p class="dev__info">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, ducimus inventore! Sunt,
-                  veniam veritatis? Veritatis placeat, deleniti iure tempore veniam perspiciatis, soluta cupiditate
-                  animi, exercitationem molestias nam doloremque architecto odit.
-                </p>
-                <div class="dev__skills">
-                  <span class="tag tag--pill tag--main">
-                    <small>JavaScript</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>React</small>
-                  </span>
-                  <span class="tag tag--pill tag--main">
-                    <small>SCSS</small>
-                  </span>
-                </div>
-              </a>
-            </div>
-          </div>
+         
         </div>
       </div>
     </section>
 
-    <div class="pagination">
+    <!-- <div class="pagination">
       <ul class="container">
         <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
         <li><a href="#" class="btn btn--sub">01</a></li>
@@ -153,18 +86,27 @@
         <li><a href="#" class="btn">10</a></li>
         <li><a href="#" class="btn">Next &#10095;</a></li>
       </ul>
-    </div>
+    </div> -->
   </main>
   <script type="text/javascript" src="js/auth.js"></script>
+  <script type="text/javascript" src="js/developers.js"></script>
   <script type="text/javascript">
+    let url = window.location.href
+    const query = url.substring(url.lastIndexOf('=') + 1);
     let token = sessionStorage.getItem("token");
+    
     async function main(){
       if(!token){
-        const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
+        if(!query.endsWith('html')){
+          searchDevelopers(query);
+        }else{
+          const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
           method: 'GET',
-        });
-      const data = await response.json();
-      showDevelopers(data);
+          });
+        const data = await response.json();
+        console.log(data)
+        showDevelopers(data);
+        }
       }else{
         const response = await fetch('http://127.0.0.1:8000/developers', {
           method: 'GET',
@@ -177,8 +119,8 @@
       }
 
     }
-
     main();
+    
 
     // Without async
   //   if (!token){

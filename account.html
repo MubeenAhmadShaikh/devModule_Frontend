@@ -115,7 +115,38 @@
     }
 
     main();
-
+    async function deleteProject(id){
+        del = confirm("You are about to Delete this project")
+        if(del){
+            let response = await fetch('http://127.0.0.1:8000/projects/delete-project/'+id, {
+            method: 'delete',
+            headers:myHeaders,  
+            });
+            let result = await response.json();
+            console.log(result);
+            alert("Project Deleted");
+            location.reload();
+        }  
+       
+    }
+    async function deleteProfile(){
+        del = confirm("You are about to Delete Your Account")
+        if(del){
+            let response = await fetch('http://127.0.0.1:8000/users/deactivate', {
+            method: 'delete',
+            headers:myHeaders,  
+            });
+            if(response.status != 200){
+              alert("Unable to deactivate your account")
+            }else{
+              let result = await response.json();
+              alert("Profile Deleted");
+              window.location.replace('/login.html');
+            }
+            
+        }  
+       
+    }
 
 
     

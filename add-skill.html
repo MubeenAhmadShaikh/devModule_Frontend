@@ -92,9 +92,12 @@
         });
 
         let result = await response.json();
-        console.log(result);
-        alert("Added Skill");
-        window.location.replace('/account.html')
+        if(response.status != 201){
+            alert(result.detail);
+        }else{
+            alert("Added Skill");
+            window.location.replace('/account.html')
+        }
     };
 
     // deleteBtn.onclick =async (e) => {

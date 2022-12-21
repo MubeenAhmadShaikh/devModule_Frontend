@@ -120,10 +120,17 @@
        else{
         sessionStorage.setItem("token","Bearer ".concat(result['access_token'] ));
         console.log(result['access_token'])
+        alert("logged in")
+        // window.location.href ="index.html" ;
+        window.location.replace("index.html")
         // document.cookie =`access_token =Bearer ${result['access_token']}`;
         // console.log(sessionStorage.getItem("token"));
-        alert("Logged in successfully");
-        window.location.href="index.html";
+        // a = confirm("Logged In successFully. Please update your profile");
+        // if(a){
+        //   window.location.replace('account.html')
+        // }else{
+        //   window.location.href="index.html";
+        // }
        }
     };
 </script>
