@@ -2,7 +2,10 @@
 let myHeaders = new Headers();
 myHeaders.append("Authorization",sessionStorage.getItem("token"));
 myHeaders.append('Content-Type','application/json');
-
+//  ----------- To limit the number data/string to show ---------
+function limit (string = '', limit = 0) {  
+  return string.substring(0, limit)
+}
 // ----------------- Function for authorization of user ------------------
 function verify() {
 	var token = sessionStorage.getItem("token");
@@ -28,7 +31,6 @@ function updateNavBar(status){
      login_button = document.querySelector("#loginbtn");;
      navBar.removeChild(login_button);
      navBar.innerHTML += `
-     <li class="header__menuItem"><a href="inbox.html">Inbox</a></li>
      <li class="header__menuItem"><a href="account.html">My Account</a></li>
      <li class="header__menuItem" onclick="logout()"><button href="" class="btn btn--sub">Logout</button></li>
      `

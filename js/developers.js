@@ -213,17 +213,36 @@ devProjectsContainer.innerHTML = devprojects;
 };
 
 
-async function searchDevelopers(query){
+async function searchDevelopers(query,token){
+  if(!token){
     const response = await fetch('http://127.0.0.1:8000/developers/developers-explore?query='+query, {
           method: 'GET',
         });
         const data = await response.json();
+        console.log(data)
         if(data['profiles'].length != 0){
           showDevelopers(data);
         }else{
           document.querySelector("#dev-list").innerHTML = "<h2>No User exist with such details </h2>"
           console.log("NO data found")
         }
+  }else{
+    const response = await fetch('http://127.0.0.1:8000/developers/?query='+query, {
+          method: 'GET',
+          headers: myHeaders,
+        });
+        const data = await response.json();
+        console.log(data)
+        if(data['profiles'].length != 0){
+          showDevelopers(data);
+          updateNavBar(data['user'])
+          
+        }else{
+          document.querySelector("#dev-list").innerHTML = "<h2>No User exist with such details </h2>"
+          console.log("NO data found")
+        }
+  }
+    
 };
 
  

@@ -46,7 +46,7 @@ img {
 }
 
 .header__logo > img {
-  height: 3.8rem;
+ max-width: 22rem;
 }
 
 .header__nav > ul {

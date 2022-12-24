@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
   <!-- Icon - IconMonster -->
   <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
   <!-- Mumble UI -->
@@ -98,7 +98,7 @@
     async function main(){
       if(!token){
         if(!query.endsWith('html')){
-          searchDevelopers(query);
+          searchDevelopers(query,token);
         }else{
           const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
           method: 'GET',
@@ -108,6 +108,10 @@
         showDevelopers(data);
         }
       }else{
+        if(!query.endsWith('html')){
+          searchDevelopers(query,token);
+          console.log(data['user'])
+        }else{
         const response = await fetch('http://127.0.0.1:8000/developers', {
           method: 'GET',
           headers: myHeaders,
@@ -119,6 +123,7 @@
       }
 
     }
+  }
     main();
     
 
