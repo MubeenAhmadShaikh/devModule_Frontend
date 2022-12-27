@@ -21,7 +21,7 @@ function showDevelopers(data){
         description = ''
       }
       if(profile.short_intro){
-        intro =limit(profile.short_intro,29);
+        intro =limit(profile.short_intro,25);
       }else{
         intro = '<h5>Developer</h5>'
       }
@@ -47,13 +47,18 @@ function showDevelopers(data){
         
       }
       
-      
+      let pfp_image;
+      if (profile.profile_image){
+        pfp_image = profile.profile_image
+      }else{
+        pfp_image = './images/default-profile.png'
+      }
       
       s += `<div class="column card">
             <div class="dev">
               <a href="profile.html?id=${profile.id}" class="card__body">
                 <div class="dev__profile">
-                  <img class="avatar avatar--md" src="./images/pfp.jpg" />
+                  <img class="avatar avatar--md" src="${pfp_image}" />
                   <div class="dev__meta">
                     <h3>${profile.first_name+" "+profile.last_name}</h3>
                     <h5>${intro}</h5>
@@ -82,8 +87,8 @@ function showDevelopers(data){
 async function showSingleDeveloper(data){
 let profile = data['profile'];
 let projects = profile.project
-console.log(!profile.skill.length)
-let skills = profile.skill
+if(profile.is_active){
+  let skills = profile.skill
 let devInfoContainer = document.querySelector('.dev')
 let devinfo= ""
 let location= ""
@@ -98,28 +103,56 @@ if(profile.short_intro){
 }else{
   intro = '<p>Developer</p>'
 }
+
+let pfp_image;
+if (profile.profile_image != null ){
+  pfp_image = profile.profile_image
+}else{
+  pfp_image = './images/default-profile.png'
+}
 devinfo += ` <div class="card__body ">
-<img class="avatar avatar--xl" src="./images/pfp.jpg" />
+<img class="avatar avatar--xl" src="${pfp_image}" />
 <h2 class="dev__name">${profile.first_name} ${profile.last_name}</h2>
 <p class="dev__title">${intro}</p>
 <p class="dev__location">${location}</p>
 <ul class="dev__social">
     <li>
-    <a title="Github" href="#" target="_blank"><i class="im im-github"></i></a>
+    <a title="Github" href="#" target="_blank">
+    <span>
+    <i class="bi bi-github"></i>
+    </span>
+    </a>
     </li>
     <li>
-    <a title="Stackoverflow" href="#" target="_blank"><i class="im im-stackoverflow"></i></a>
+    <a title="LinkedIn" href="#" target="_blank">
+    <span>
+    <i class="bi bi-linkedin"></i>
+    </span>
+    </a>
     </li>
     <li>
-    <a title="Twitter" href="#" target="_blank"><i class="im im-twitter"></i></a>
+    <a title="Twitter" href="#" target="_blank">
+    <span>
+    <i class="bi bi-twitter"></i>
+    </span>
+    </a>
     </li>
     <li>
-    <a title="LinkedIn" href="#" target="_blank"><i class="im im-linkedin"></i></a>
+    <a title="YouTube" href="#" target="_blank">
+    <span>
+    <i class="bi bi-youtube"></i>
+    </span>
+    </a>
     </li>
     <li>
-    <a title="Personal Website" href="#" target="_blank"><i class="im im-globe"></i></a>
+    <a title="Website" href="#" target="_blank">
+    <span>
+    <i class="bi bi-globe"></i>
+    </span>
+    </a>
     </li>
-</ul>
+    
+  </ul>
 </div> 
 `;
 devInfoContainer.innerHTML = devinfo;
@@ -179,25 +212,14 @@ projects.forEach((project,i)=>{
     <div class="column">
     <div class="card project">
     <a href="single-project.html?id=${project.id}" class="project">
-        <img class="project__thumbnail" src="images/project-c.png" alt="project thumbnail" />
+        <img class="project__thumbnail" src="${project.featured_image}" alt="project thumbnail" />
         <div class="card__body">
         <h3 class="project__title">${project.title}</h3>
         <p><a class="project__author" href="">By ${profile.first_name} ${profile.last_name}</a></p>
         <p class="project--rating">
-            <span style="font-weight: bold;">36%</span> Postitive
-            Feedback (18 Votes)
+            <span style="font-weight: bold;">${project.vote_ratio}%</span> Postitive
+            Feedback (${project.vote_total} Votes)
         </p>
-        <div class="project__tags">
-            <span class="tag tag--pill tag--main">
-            <small>NextJS</small>
-            </span>
-            <span class="tag tag--pill tag--main">
-            <small>GraphQL</small>
-            </span>
-            <span class="tag tag--pill tag--main">
-            <small>TypeScript</small>
-            </span>
-        </div>
         </div>
     </a>
     </div>
@@ -206,6 +228,10 @@ projects.forEach((project,i)=>{
 });
 };
 devProjectsContainer.innerHTML = devprojects;
+
+}else{
+  window.location.replace('/index.html')
+}
 
 
 

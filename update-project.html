@@ -15,10 +15,11 @@
     <!-- Dev Search UI -->
     <link rel="stylesheet" href="styles/app.css" />
 
+    <script src="js/auth.js"></script>
     <title>DevModule - Connect with Developers!</title>
 </head>
 
-<body>
+<body onload="verify();"> 
     <!-- Header Section -->
     <header class="header">
         <div class="container container--narrow">
@@ -53,6 +54,14 @@
                         <label for="formInput#text">Title</label>
                         <input class="input input--text" id="title" type="text" name="text"
                             placeholder="Enter text" value="" required/>
+    
+                        
+                    </div>
+                    <div class="form__field">
+                        <label for="formInput#text">Cover Image</label>
+                        <input class="input input--text" id="featured_image" type="file" name="featured_image" required/>
+                        <br/>
+                        <img src="" alt="Project Cover Image" id="image_src">
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Description</label>
@@ -85,13 +94,15 @@
         </div>
     </main>
 
-<script src="js/auth.js"></script>
 <script type="text/javascript">
     let token = sessionStorage.getItem("token");
+    updateNavBar(token);
     let url = window.location.href
     var id = url.substring(url.lastIndexOf('=') + 1);
 
     let projectTitle = document.getElementById('title')
+    let featured_image = document.querySelector('input[type="file"]')
+    let prev_image = document.getElementById('image_src')
     let projectDescription = document.getElementById('description')
     let srcLink = document.getElementById('srcLink')
     let demoLink = document.getElementById('demoLink')
@@ -100,13 +111,17 @@
       method: 'GET',
       headers: myHeaders,
         });
-        if(response.status != 200){
+        if(response.status == 401){
+            verify();
+        }
+        else if(response.status != 200){
             alert("Unable to fetch the details")
         }else{
             const data = await response.json();   
             project = data['project'] 
             console.log(data)
             projectTitle.setAttribute("value",project.title)
+            prev_image.setAttribute("src",project.featured_image)
             projectDescription.innerHTML = project.description
             srcLink.setAttribute("value",project.source_link)
             demoLink.setAttribute("value",project.demo_link)
@@ -116,20 +131,28 @@
     main();
     let projectForm = document.querySelector("#projectForm");
     projectForm.onsubmit =async (e) => {
+    
+    // data = {
+    //         'title':projectTitle.value,
+    //         'description':projectDescription.value,
+    //         'demo_link':demoLink.value,
+    //         'source_link':srcLink.value,
+    //         'vote_total':0,
+    //         'vote_ratio':0  
+    //     };
+    const formData = new FormData();
+    formData.append('title', projectTitle.value);
+    formData.append('featured_image', featured_image.files[0]);
+    formData.append('description', description.value);
+    formData.append('demo_link', demoLink.value);
+    formData.append('source_link', srcLink.value);
     e.preventDefault();
-    console.log(projectTitle.value)
-    data = {
-            'title':projectTitle.value,
-            'description':projectDescription.value,
-            'demo_link':demoLink.value,
-            'source_link':srcLink.value,
-            'vote_total':0,
-            'vote_ratio':0  
-        };
     let response = await fetch('http://127.0.0.1:8000/projects/update-project/'+id, {
       method: 'put',
-      headers:myHeaders,  
-      body: JSON.stringify(data),
+      headers: {
+                "Authorization":sessionStorage.getItem("token"),
+            },   
+      body: formData,
     });
     if(response.status != 200){
         alert("Unable to update your project details!!");

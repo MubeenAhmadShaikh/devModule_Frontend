@@ -34,6 +34,7 @@
         <ul class="header__menu" id="navbar">
           <li class="header__menuItem"><a href="index.html">Developers</a></li>
           <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+          <li class="header__menuItem"><a href="About.html">About</a></li>
           <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
         </ul>
       </nav>
@@ -110,7 +111,6 @@
       }else{
         if(!query.endsWith('html')){
           searchDevelopers(query,token);
-          console.log(data['user'])
         }else{
         const response = await fetch('http://127.0.0.1:8000/developers', {
           method: 'GET',
@@ -118,7 +118,7 @@
         });
       const data = await response.json();
       console.log(data)
-      updateNavBar(data['user']);
+      updateNavBar(token);
       showDevelopers(data);
       }
 

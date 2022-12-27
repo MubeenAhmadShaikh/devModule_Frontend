@@ -58,10 +58,10 @@
         </div>
 
         <div class="hero-section__search">
-          <form class="form" action="#" method="get">
-            <div class="form__field">
+          <form class="form"  method="get">
+            <div class="form__field" >
               <label for="formInput#search">Search By Projects </label>
-              <input class="input input--text" id="formInput#search" type="text" name="text"
+              <input class="input input--text" id="formInput#search" type="text" name="query"
                 placeholder="Search by Project Title" />
             </div>
 
@@ -72,7 +72,7 @@
     </section>
     <!-- Search Result: DevList -->
     <section class="projectsList">
-      <div class="container">
+      <div class="container" id="projectsContainer">
         <div class="grid grid--three" id="projectCard">
           
         </div>
@@ -102,28 +102,58 @@
     //   // Animate loader off screen
     //   $(".loading").fadeOut("slow");;
     // });
+    let url = window.location.href
+    const query = url.substring(url.lastIndexOf('=') + 1);
     let token = sessionStorage.getItem("token");
     async function main(){
       if(!token){
-        const response = await fetch('http://127.0.0.1:8000/projects/projects-explore', {
+        if(!query.endsWith('html')){
+          searchProjects(query,token);
+        }else{
+          const response = await fetch('http://127.0.0.1:8000/projects/projects-explore', {
           method: 'GET',
-        });
-      const data = await response.json();
-      console.log(data);
-      showProjects(data);
+          });
+        const data = await response.json();
+        showProjects(data);
+        }
       }else{
+        if(!query.endsWith('html')){
+          searchProjects(query,token);
+        }else{
         const response = await fetch('http://127.0.0.1:8000/projects', {
           method: 'GET',
           headers: myHeaders,
         });
-      const data = await response.json();
-      console.log(data);
-      updateNavBar(data['user']);
-      showProjects(data);
+        const data = await response.json();
+        console.log(data)
+        updateNavBar(token);
+        showProjects(data);
       }
 
     }
+  }
+    // ----------------------------------------------
+    // async function main(){
+    //   if(!token){
+    //     const response = await fetch('http://127.0.0.1:8000/projects/projects-explore', {
+    //       method: 'GET',
+    //     });
+    //   const data = await response.json();
+    //   console.log(data);
+    //   showProjects(data);
+    //   }else{
+    //     const response = await fetch('http://127.0.0.1:8000/projects', {
+    //       method: 'GET',
+    //       headers: myHeaders,
+    //     });
+    //   const data = await response.json();
+    //   console.log(data);
+    //   updateNavBar(data['user']);
+    //   showProjects(data);
+    //   }
 
+    // }
+// -----------------------------------------------------------
     main();
       
     

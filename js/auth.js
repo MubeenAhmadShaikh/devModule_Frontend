@@ -43,34 +43,71 @@ function showAccountDetails(data){
   let projects = profile.project
   // console.log(!profile.skill.length)
   // let skills = profile.skill
+  let pfp_image;
+  if (profile.profile_image){
+    pfp_image = profile.profile_image
+  }else{
+    pfp_image = './images/default-profile.png'
+  }
+  if(profile.location){
+    profilelocation = `Based in ${profile.location}`
+  }else{
+    profilelocation =  ''
+  }
+  if(profile.short_intro){
+    intro = profile.short_intro;
+  }else{
+    intro = '<p>Developer</p>'
+  }
 
   // Developer details left container column
   let devInfoContainer = document.querySelector('.dev')
   let devinfo= ""
   devinfo += ` <div class="card__body dev">
-  <a class="tag tag--pill tag--main settings__btn" href="update-profile.html?id=${profile.id}"><i class="im im-edit"></i> Edit</a>
-  <img class="avatar avatar--xl dev__avatar" src="./images/pfp.jpg" />
+  <a class="tag tag--pill tag--main settings__btn" href="update-profile.html?id=${profile.id}"><i class="bi bi-pencil-square"></i> Edit</a>
+  <img class="avatar avatar--xl dev__avatar" src="${pfp_image}" />
   <h2 class="dev__name">${profile.first_name} ${profile.last_name}</h2>
-  <p class="dev__title">${profile.short_intro}</p>
-  <p class="dev__location">Based in ${profile.location}</p>
+  <p class="dev__title">${intro}</p>
+  <p class="dev__location">${profilelocation}</p>
   <ul class="dev__social">
     <li>
-      <a title="Github" href="#" target="_blank"><i class="im im-github"></i></a>
+    <a title="Github" href="#" target="_blank">
+    <span>
+    <i class="bi bi-github"></i>
+    </span>
+    </a>
     </li>
     <li>
-      <a title="Stackoverflow" href="#" target="_blank"><i class="im im-stackoverflow"></i></a>
+    <a title="LinkedIn" href="#" target="_blank">
+    <span>
+    <i class="bi bi-linkedin"></i>
+    </span>
+    </a>
     </li>
     <li>
-      <a title="Twitter" href="#" target="_blank"><i class="im im-twitter"></i></a>
+    <a title="Twitter" href="#" target="_blank">
+    <span>
+    <i class="bi bi-twitter"></i>
+    </span>
+    </a>
     </li>
     <li>
-      <a title="LinkedIn" href="#" target="_blank"><i class="im im-linkedin"></i></a>
+    <a title="YouTube" href="#" target="_blank">
+    <span>
+    <i class="bi bi-youtube"></i>
+    </span>
+    </a>
     </li>
     <li>
-      <a title="Personal Website" href="#" target="_blank"><i class="im im-globe"></i></a>
+    <a title="Website" href="#" target="_blank">
+    <span>
+    <i class="bi bi-globe"></i>
+    </span>
+    </a>
     </li>
+    
   </ul>
-  <a href='javascript:;' onclick='deleteProfile();' class="btn btn--del btn--md">Deactivate Account</a>
+  <a href='javascript:;' onclick='deleteProfile();' class="btn btn--del btn--md"><i class="bi bi-x-circle"></i>&nbsp Deactivate Account</a>
 </div>
 `;
 devInfoContainer.innerHTML = devinfo;
@@ -84,7 +121,7 @@ if (!profile.bio){
 }else{
 aboutdev += `<div class="settings">
 <h3 class="settings__title">About Me</h3>
-<a class="tag tag--pill tag--sub settings__btn tag--lg" href="update-profile.html?id=${profile.id}"><i class="bi bi-plus-lg"></i>&nbsp;Update</a>
+<a class="tag tag--pill tag--sub settings__btn tag--lg" href="update-profile.html?id=${profile.id}"><i class="bi bi-pencil-square"></i>&nbsp;Update</a>
 </div><br/>
 <p class="devInfo__about">
   ${profile.bio}
@@ -128,18 +165,17 @@ if (!projects.length){
     devprojects += `
     <tr>
               <td class="settings__thumbnail">
-                <a href="single-project.html"><img src="images/project-a.png" alt="Project Thumbnail" /></a>
+                <a href="single-project.html?id=${project.id}"><img src="${project.featured_image}" alt="Project Thumbnail" /></a>
               </td>
               <td class="settings__tableInfo">
-                <a href="single-project.html">${project.title}</a>
+                <a href="single-project.html?id=${project.id}">${project.title}</a>
                 <p>
                   ${description}
                 </p>
               </td>
               <td class="settings__tableActions">
-                <a class="tag tag--pill tag--main settings__btn" href="update-project.html?id=${project.id}"><i class="im im-edit"></i> Edit</a>
-                <a class="tag tag--pill tag--main settings__btn" href='javascript:;' onclick='deleteProject(${project.id});'><i class="im im-x-mark-circle-o"></i>
-                  Delete</a>
+                <a class="tag tag--pill tag--main settings__btn" href="update-project.html?id=${project.id}"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                <a class="tag tag--pill tag--main settings__btn" href='javascript:;' onclick='deleteProject(${project.id});'><i class="bi bi-trash"></i>&nbspDelete</a>
               </td>
             </tr>
     `

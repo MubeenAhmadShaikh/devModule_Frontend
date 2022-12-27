@@ -60,14 +60,20 @@
                             placeholder="Enter text" value="" required/>
                     </div>
                     <div class="form__field">
+                        <label for="formInput#text">Profile Picture</label>
+                        <input class="input input--text" id="profile_image" type="file" name="profile_image"/>
+                        <br/>
+                        <img src="" alt="Profile Image" id="image_src">
+                    </div>
+                    <div class="form__field">
                         <label for="formInput#text">Short Intro</label>
                         <input class="input input--text" id="shortIntro" type="text" name="text"
-                            placeholder="Enter text" value="" required/>
+                            placeholder="Enter text" value="" />
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Location</label>
                         <input class="input input--text" id="location" type="text" name="text"
-                            placeholder="Enter text" value="" required/>
+                            placeholder="Enter text" value="" />
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Bio</label>
@@ -120,6 +126,7 @@
 
     let first_name = document.getElementById('fname');
     let last_name = document.getElementById('lname');
+    let profile_image = document.querySelector('input[type="file"]');
     let short_intro = document.getElementById('shortIntro');
     let user_location = document.getElementById('location');
     let bio = document.getElementById('bio');
@@ -159,28 +166,40 @@
     let profileForm = document.querySelector("#profileForm");
     profileForm.onsubmit =async (e) => {
     e.preventDefault();
-
-    data = {
-        "first_name": first_name.value,
-        "last_name": last_name.value,
-        "location": user_location.value,
-        "short_intro": short_intro.value,
-        "bio": bio.value,
-        "social_github": social_github.value,
-        "social_twitter": social_twitter.value,
-        "social_linkedin": social_linkedin.value,
-        "social_youtube": social_youtube.value,
-        "social_website": social_website.value 
-    };
-    console.log(data)
+    // data = {
+    //     "first_name": first_name.value,
+    //     "last_name": last_name.value,
+    //     "location": user_location.value,
+    //     "short_intro": short_intro.value,
+    //     "bio": bio.value,
+    //     "social_github": social_github.value,
+    //     "social_twitter": social_twitter.value,
+    //     "social_linkedin": social_linkedin.value,
+    //     "social_youtube": social_youtube.value,
+    //     "social_website": social_website.value 
+    // };
+    const formData = new FormData();
+    formData.append('first_name', first_name.value);
+    formData.append('last_name', last_name.value);
+    formData.append('profile_image', profile_image.files[0]);
+    formData.append('location', user_location.value);
+    formData.append('short_intro', short_intro.value);
+    formData.append('bio', bio.value);
+    formData.append('social_github', social_github.value);
+    formData.append('social_twitter', social_twitter.value);
+    formData.append('social_linkedin', social_linkedin.value);
+    formData.append('social_youtube', social_youtube.value);
+    formData.append('social_website', social_website.value);
     let response = await fetch('http://127.0.0.1:8000/developers/update-profile', {
       method: 'put',
-      headers:myHeaders,  
-      body: JSON.stringify(data),
+      headers: {
+                "Authorization":sessionStorage.getItem("token"),
+            },   
+      body: formData,
     });
     if(response.status != 200){
         alert("Unable to update your profile details!!");
-        window.location.replace('/account.html');
+        // window.location.replace('/account.html');
     }else{
         let result = await response.json();
         console.log(result);

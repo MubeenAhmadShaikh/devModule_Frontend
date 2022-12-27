@@ -44,43 +44,11 @@
   <main class="singleProject my-md">
     <div class="container">
       <div class="layout">
-        <div class="column column--1of3">
-          <h3 class="singleProject__subtitle">Tools & Stacks</h3>
-          <div class="singleProject__toolStack">
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>Figma</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>React Js</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>REST API</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>GraphQL</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>TypeScript</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>Webpack</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>NextJS</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>Postgres</small>
-            </span>
-            <span class="tag tag--pill tag--sub tag--lg">
-              <small>MongoDB</small>
-            </span>
-          </div>
-          <a class="singleProject__liveLink" href="#" target="_blank"><i class="im im-external-link"></i>Source Code
-          </a>
+        <div class="column column--1of3" id="links">
+          
         </div>
         <div class="column column--2of3" id="singleProject">
           <input type="text" value="" hidden >
-          
           
 
           <div class="comments" >
@@ -109,7 +77,7 @@
           headers: myHeaders,
         });
       const data = await response.json();
-      updateNavBar(data['user']);
+      updateNavBar(token);
       showSingleProject(data);
       commentForm(token,id);
       }

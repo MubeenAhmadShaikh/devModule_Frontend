@@ -75,9 +75,11 @@
         </div>
     </main>
 
-
+<script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript">
+
     let token = sessionStorage.getItem("token");
+    updateNavBar(token);
     let skillForm = document.querySelector("#skillForm");
     skillForm.onsubmit =async (e) => {
         let skillName = document.getElementById('name').value;
