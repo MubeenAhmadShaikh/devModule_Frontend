@@ -74,11 +74,32 @@ function showDevelopers(data){
               </a>
             </div>
           </div>
-              
+          ${(() => {
+            if (i == 2) {
+              if(token){
+                return `<!-- Load more-->
+                <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
+                
+                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showDevelopersAuthenticated('${data.pagination.next}')">Load more <i class="bi bi-cloud-arrow-down"></i></a>
+                        </div>
+                `;
+              }else{
+                return `<!-- Load more-->
+                <div class="flex justify-center mt-6" id="toggle">
+                        <button class="btn btn--sub--outline" onclick="showDevelopersUnauthenticated('${data.pagination.next}')">Load more...</button>
+                </div>
+                <br>`;
+              }
+                
+            }
+            else{
+                return ` `;
+            }
+        })()
+        }
           `
-          
         });
-        profileCard.innerHTML = s;
+        profileCard.innerHTML += s;
        
           
   };

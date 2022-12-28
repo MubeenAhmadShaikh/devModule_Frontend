@@ -4,9 +4,10 @@ function limit (string = '', limit = 0) {
 };
 // ------------- Function to show all the projects on projects page -----------
 function showProjects(data){
+  console.log(data)
     let projectCard = document.querySelector('#projectCard')
       let s = ""
-      data['projects'].forEach((project,i)=>{
+      data['data'].forEach((project,i)=>{
           s += `<div class="column">
             <div class="card project">
               <a href='single-project.html?id=${project.id}'  id="prj" class="project">
@@ -23,9 +24,30 @@ function showProjects(data){
                   </div>
               </a>
             </div>
-            </div>`
+            </div>
+            ${(() => {
+              if (i == 2) {
+                if(token){
+                  return `<!-- Load more-->
+                  <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
+                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showProjectAuthenticated('${data.pagination.next}')">Load more <i class="bi bi-arrow-repeat"></i></a>
+                  </div>`;
+                }else{
+                  return `<!-- Load more-->
+                  <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
+                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showProjectUnauthenticated('${data.pagination.next}')">Load more <i class="bi bi-arrow-repeat"></i></a>
+                        </div>`;
+                }
+                  
+              }
+              else{
+                  return ` `;
+              }
+          })()
+          }
+            `
       });
-      projectCard.innerHTML = s;
+      projectCard.innerHTML += s;
   };
 
 // ------------- Function to show single project details ------------------

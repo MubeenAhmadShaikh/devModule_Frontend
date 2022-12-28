@@ -8,13 +8,10 @@
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
-  <!-- Icon - IconMonster -->
-  <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
-  <!-- Mumble UI -->
   <link rel="stylesheet" href="uikit/styles/uikit.css" />
-  <!-- Dev Search UI -->
   <link rel="stylesheet" href="styles/app.css" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  
   <title>DevModule - Connect with Developers!</title>
 </head>
 
@@ -96,67 +93,67 @@
     const query = url.substring(url.lastIndexOf('=') + 1);
     let token = sessionStorage.getItem("token");
     
+async function showDevelopersUnauthenticated(paginationlink){
+const response = await fetch('http://127.0.0.1:8000/developers/developers-explore'+paginationlink, {
+      method: 'GET',
+      });
+    const data = await response.json();
+    var current_url = new URL('http://127.0.0.1:8000/developers/developers-explore'+paginationlink)
+
+    if(current_url.searchParams.get('page_start') != '1'){
+      document.getElementById('toggle').remove();
+    }
+    showDevelopers(data);
+};
+
+async function showDevelopersAuthenticated(paginationlink){
+    const response = await fetch('http://127.0.0.1:8000/developers'+paginationlink, {
+      method: 'GET',
+      headers: myHeaders,
+      });
+    const data = await response.json();
+    var current_url = new URL('http://127.0.0.1:8000/developers'+paginationlink)
+
+    if(current_url.searchParams.get('page_start') != '1'){
+      document.getElementById('toggle').remove();
+    }
+    showDevelopers(data);
+    updateNavBar(token);
+};
+
+
+
     async function main(){
       if(!token){
         if(!query.endsWith('html')){
           searchDevelopers(query,token);
         }else{
-          const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
-          method: 'GET',
-          });
-        const data = await response.json();
-        console.log(data)
-        showDevelopers(data);
+          showDevelopersUnauthenticated('?page_start=1&page_end=3')
+        //   const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
+        //   method: 'GET',
+        //   });
+        // const data = await response.json();
+        // console.log(data)
+        // showDevelopers(data);
         }
       }else{
         if(!query.endsWith('html')){
           searchDevelopers(query,token);
         }else{
-        const response = await fetch('http://127.0.0.1:8000/developers', {
-          method: 'GET',
-          headers: myHeaders,
-        });
-      const data = await response.json();
-      console.log(data)
-      updateNavBar(token);
-      showDevelopers(data);
+          showDevelopersAuthenticated('?page_start=1&page_end=3')
+      //   const response = await fetch('http://127.0.0.1:8000/developers', {
+      //     method: 'GET',
+      //     headers: myHeaders,
+      //   });
+      // const data = await response.json();
+      // console.log(data)
+      // updateNavBar(token);
+      // showDevelopers(data);
       }
 
     }
   }
     main();
-    
-
-    // Without async
-  //   if (!token){
-  //     let apidata = fetch('http://127.0.0.1:8000/developers/developers-explore', {
-  //         method: 'GET',
-  //       })
-  //     .then((apidata)=>{
-  //       return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     showDevelopers(actualdata);
-  //   })
-  //   .catch((error=>console.log(error)));
-  //   }else{
-  //   let apidata = fetch('http://127.0.0.1:8000/developers', {
-  //         method: 'GET',
-  //         headers: myHeaders,
-  //       })
-  //     .then((apidata)=>{
-  //       return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     updateNavBar(actualdata['user']);
-  //     showDevelopers(actualdata);
-  //   })
-  //   .catch((error=>console.log(error)));
-    
-
-  // };
-    
-
   </script>
 </body>
 

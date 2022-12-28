@@ -8,11 +8,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
-    <!-- Icon - IconMonster -->
-    <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
-    <!-- Mumble UI -->
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
-    <!-- Dev Search UI -->
     <link rel="stylesheet" href="styles/app.css" />
 
     <script src="js/auth.js"></script>
@@ -35,6 +31,7 @@
                 <ul class="header__menu" id="navbar">
                     <li class="header__menuItem"><a href="index.html">Developers</a></li>
                     <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+                    <li class="header__menuItem"><a href="about.html">About</a></li>
                     <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
                   </ul>
             </nav>
@@ -131,15 +128,7 @@
     main();
     let projectForm = document.querySelector("#projectForm");
     projectForm.onsubmit =async (e) => {
-    
-    // data = {
-    //         'title':projectTitle.value,
-    //         'description':projectDescription.value,
-    //         'demo_link':demoLink.value,
-    //         'source_link':srcLink.value,
-    //         'vote_total':0,
-    //         'vote_ratio':0  
-    //     };
+
     const formData = new FormData();
     formData.append('title', projectTitle.value);
     formData.append('featured_image', featured_image.files[0]);

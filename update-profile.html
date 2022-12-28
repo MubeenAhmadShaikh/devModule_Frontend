@@ -8,14 +8,36 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
-    <!-- Icon - IconMonster -->
-    <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
-    <!-- Mumble UI -->
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
-    <!-- Dev Search UI -->
     <link rel="stylesheet" href="styles/app.css" />
     <title>DevModule - Connect with Developers!</title>
     <script type="text/javascript" src="js/auth.js"></script>
+    <style>
+        #loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+            visibility: none;
+        }
+          
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+          
+        .center {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+    </style>
 </head>
 
 <body onload="verify();">
@@ -34,6 +56,7 @@
                 <ul class="header__menu" id="navbar">
                     <li class="header__menuItem"><a href="index.html">Developers</a></li>
                     <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+                    <li class="header__menuItem"><a href="about.html">About</a></li>
                     <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
                   </ul>
             </nav>
@@ -61,9 +84,10 @@
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Profile Picture</label>
-                        <input class="input input--text" id="profile_image" type="file" name="profile_image"/>
+                        <input class="input input--text" id="profile_image" type="file" onchange="onFileSelected(event)" name="profile_image"/>
                         <br/>
-                        <img src="" alt="Profile Image" id="image_src">
+                        <br/>
+                        <img class="avatar avatar--xl" src="images/default-profile.png" onchange="" id="img_src"/>
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Short Intro</label>
@@ -127,6 +151,7 @@
     let first_name = document.getElementById('fname');
     let last_name = document.getElementById('lname');
     let profile_image = document.querySelector('input[type="file"]');
+    let prev_profile_image = document.querySelector('#img_src');
     let short_intro = document.getElementById('shortIntro');
     let user_location = document.getElementById('location');
     let bio = document.getElementById('bio');
@@ -145,11 +170,12 @@
             window.location.replace('/account.html');
         }else{
             const data = await response.json(); 
-            updateNavBar(data['user']);   
+            updateNavBar(token);   
             profile = data['profile'] 
             first_name.setAttribute("value",profile.first_name);
             last_name.setAttribute("value",profile.last_name);
             short_intro.setAttribute("value",profile.short_intro);
+            prev_profile_image.setAttribute("src",profile.profile_image);
             user_location.setAttribute("value",profile.location);
             social_github.setAttribute("value",profile.social_github);
             social_twitter.setAttribute("value",profile.social_twitter);
@@ -166,18 +192,6 @@
     let profileForm = document.querySelector("#profileForm");
     profileForm.onsubmit =async (e) => {
     e.preventDefault();
-    // data = {
-    //     "first_name": first_name.value,
-    //     "last_name": last_name.value,
-    //     "location": user_location.value,
-    //     "short_intro": short_intro.value,
-    //     "bio": bio.value,
-    //     "social_github": social_github.value,
-    //     "social_twitter": social_twitter.value,
-    //     "social_linkedin": social_linkedin.value,
-    //     "social_youtube": social_youtube.value,
-    //     "social_website": social_website.value 
-    // };
     const formData = new FormData();
     formData.append('first_name', first_name.value);
     formData.append('last_name', last_name.value);
@@ -190,6 +204,7 @@
     formData.append('social_linkedin', social_linkedin.value);
     formData.append('social_youtube', social_youtube.value);
     formData.append('social_website', social_website.value);
+    
     let response = await fetch('http://127.0.0.1:8000/developers/update-profile', {
       method: 'put',
       headers: {
@@ -199,7 +214,6 @@
     });
     if(response.status != 200){
         alert("Unable to update your profile details!!");
-        // window.location.replace('/account.html');
     }else{
         let result = await response.json();
         console.log(result);
@@ -208,10 +222,27 @@
     }
 };
 
+function onFileSelected(event) {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
 
-   
-    
-    </script>
+    var imgtag = document.getElementById("img_src");
+
+    reader.onload = function (event) {
+        imgtag.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedFile);
+}
+function hideLoader(){
+    document.querySelector("#loader").style.visibility = "hidden";            
+}
+function showLoader(){
+    document.querySelector("#loader").style.visibility = "visible";            
+}
+
+    </script> 
+
 </body>
 
 </html>

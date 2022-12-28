@@ -7,12 +7,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
-  <!-- Icon - IconMonster -->
-  <link rel="stylesheet" href="https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css" />
-  <!-- Mumble UI -->
+  <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  
   <link rel="stylesheet" href="uikit/styles/uikit.css" />
-  <!-- Dev Search UI -->
   <link rel="stylesheet" href="styles/app.css" />
   <script type="text/javascript" src="js/auth.js"></script>
   <script type="text/javascript" src="js/projects.js"></script>
@@ -35,6 +33,7 @@
         <ul class="header__menu" id="navbar">
           <li class="header__menuItem"><a href="index.html">Developers</a></li>
           <li class="header__menuItem"><a href="projects.html">Projects</a></li>
+          <li class="header__menuItem"><a href="about.html">About</a></li>
           <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
         </ul>
       </nav>
@@ -96,7 +95,7 @@
       </ul>
     </div> -->
   </main>
-  <!-- #BUG - Unable to add project alert -->
+
   <script type="text/javascript">
     //   $(window).load(function() {
     //   // Animate loader off screen
@@ -105,55 +104,54 @@
     let url = window.location.href
     const query = url.substring(url.lastIndexOf('=') + 1);
     let token = sessionStorage.getItem("token");
+
+
+    async function showProjectUnauthenticated(paginationlink){
+    const response = await fetch('http://127.0.0.1:8000/projects/projects-explore'+paginationlink, {
+          method: 'GET',
+          });
+        const data = await response.json();
+        var current_url = new URL('http://127.0.0.1:8000/projects/projects-explore'+paginationlink)
+
+        if(current_url.searchParams.get('page_start') != '1'){
+          document.getElementById('toggle').remove();
+        }
+        showProjects(data);
+    };
+
+    async function showProjectAuthenticated(paginationlink){
+        const response = await fetch('http://127.0.0.1:8000/projects'+paginationlink, {
+          method: 'GET',
+          headers: myHeaders,
+          });
+        const data = await response.json();
+        var current_url = new URL('http://127.0.0.1:8000/projects'+paginationlink)
+
+        if(current_url.searchParams.get('page_start') != '1'){
+          document.getElementById('toggle').remove();
+        }
+        showProjects(data);
+        updateNavBar(token);
+    };
+  
     async function main(){
       if(!token){
         if(!query.endsWith('html')){
           searchProjects(query,token);
         }else{
-          const response = await fetch('http://127.0.0.1:8000/projects/projects-explore', {
-          method: 'GET',
-          });
-        const data = await response.json();
-        showProjects(data);
+          showProjectUnauthenticated('?page_start=1&page_end=3');
         }
       }else{
         if(!query.endsWith('html')){
           searchProjects(query,token);
         }else{
-        const response = await fetch('http://127.0.0.1:8000/projects', {
-          method: 'GET',
-          headers: myHeaders,
-        });
-        const data = await response.json();
-        console.log(data)
-        updateNavBar(token);
-        showProjects(data);
+          showProjectAuthenticated('?page_start=1&page_end=3');
       }
 
     }
   }
-    // ----------------------------------------------
-    // async function main(){
-    //   if(!token){
-    //     const response = await fetch('http://127.0.0.1:8000/projects/projects-explore', {
-    //       method: 'GET',
-    //     });
-    //   const data = await response.json();
-    //   console.log(data);
-    //   showProjects(data);
-    //   }else{
-    //     const response = await fetch('http://127.0.0.1:8000/projects', {
-    //       method: 'GET',
-    //       headers: myHeaders,
-    //     });
-    //   const data = await response.json();
-    //   console.log(data);
-    //   updateNavBar(data['user']);
-    //   showProjects(data);
-    //   }
-
-    // }
-// -----------------------------------------------------------
+  
+ 
     main();
       
     
