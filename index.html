@@ -31,7 +31,7 @@
         <ul class="header__menu" id="navbar">
           <li class="header__menuItem"><a href="index.html">Developers</a></li>
           <li class="header__menuItem"><a href="projects.html">Projects</a></li>
-          <li class="header__menuItem"><a href="About.html">About</a></li>
+          <li class="header__menuItem"><a href="about.html">About</a></li>
           <li class="header__menuItem" id="loginbtn"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
         </ul>
       </nav>
@@ -69,23 +69,7 @@
       </div>
     </section>
 
-    <!-- <div class="pagination">
-      <ul class="container">
-        <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
-        <li><a href="#" class="btn btn--sub">01</a></li>
-        <li><a href="#" class="btn">02</a></li>
-        <li><a href="#" class="btn">03</a></li>
-        <li><a href="#" class="btn">04</a></li>
-        <li><a href="#" class="btn">05</a></li>
-        <li><a href="#" class="btn">06</a></li>
-        <li><a href="#" class="btn">07</a></li>
-        <li><a href="#" class="btn">08</a></li>
-        <li><a href="#" class="btn">09</a></li>
-        <li><a href="#" class="btn">10</a></li>
-        <li><a href="#" class="btn">Next &#10095;</a></li>
-      </ul>
-    </div> -->
-  </main>
+    </main>
   <script type="text/javascript" src="js/auth.js"></script>
   <script type="text/javascript" src="js/developers.js"></script>
   <script type="text/javascript">
@@ -94,11 +78,11 @@
     let token = sessionStorage.getItem("token");
     
 async function showDevelopersUnauthenticated(paginationlink){
-const response = await fetch('http://127.0.0.1:8000/developers/developers-explore'+paginationlink, {
+const response = await fetch('https://devmodule.onrender.com/developers/developers-explore'+paginationlink, {
       method: 'GET',
       });
     const data = await response.json();
-    var current_url = new URL('http://127.0.0.1:8000/developers/developers-explore'+paginationlink)
+    var current_url = new URL('https://devmodule.onrender.com/developers/developers-explore'+paginationlink)
 
     if(current_url.searchParams.get('page_start') != '1'){
       document.getElementById('toggle').remove();
