@@ -89,11 +89,11 @@
     
 
     async function showProjectUnauthenticated(paginationlink){
-    const response = await fetch('http://127.0.0.1:8000/projects/projects-explore'+paginationlink, {
+    const response = await fetch(BASE_URL+'projects/projects-explore'+paginationlink, {
           method: 'GET',
           });
         const data = await response.json();
-        var current_url = new URL('http://127.0.0.1:8000/projects/projects-explore'+paginationlink)
+        var current_url = new URL(BASE_URL+'projects/projects-explore'+paginationlink)
 
         if(current_url.searchParams.get('page_start') != '1'){
           document.getElementById('toggle').remove();
@@ -102,12 +102,12 @@
     };
 
     async function showProjectAuthenticated(paginationlink){
-        const response = await fetch('http://127.0.0.1:8000/projects'+paginationlink, {
+        const response = await fetch(BASE_URL+'projects'+paginationlink, {
           method: 'GET',
           headers: myHeaders,
           });
         const data = await response.json();
-        var current_url = new URL('http://127.0.0.1:8000/projects'+paginationlink)
+        var current_url = new URL(BASE_URL+'projects'+paginationlink)
 
         if(current_url.searchParams.get('page_start') != '1'){
           document.getElementById('toggle').remove();

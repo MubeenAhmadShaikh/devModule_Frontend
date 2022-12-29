@@ -79,11 +79,11 @@
     let token = sessionStorage.getItem("token");
     
   async function showDevelopersUnauthenticated(paginationlink){
-const response = await fetch('http://127.0.0.1:8000/developers/developers-explore'+paginationlink, {
+const response = await fetch(BASE_URL+'developers/developers-explore'+paginationlink, {
       method: 'GET',
       });
     const data = await response.json();
-    var current_url = new URL('http://127.0.0.1:8000/developers/developers-explore'+paginationlink)
+    var current_url = new URL(BASE_URL+'developers/developers-explore'+paginationlink)
 
     if(current_url.searchParams.get('page_start') != '1'){
       document.getElementById('toggle').remove();
@@ -92,12 +92,12 @@ const response = await fetch('http://127.0.0.1:8000/developers/developers-explor
 };
 
   async function showDevelopersAuthenticated(paginationlink){
-    const response = await fetch('http://127.0.0.1:8000/developers'+paginationlink, {
+    const response = await fetch(BASE_URL+'developers'+paginationlink, {
       method: 'GET',
       headers: myHeaders,
       });
     const data = await response.json();
-    var current_url = new URL('http://127.0.0.1:8000/developers'+paginationlink)
+    var current_url = new URL(BASE_URL+'developers'+paginationlink)
 
     if(current_url.searchParams.get('page_start') != '1'){
       document.getElementById('toggle').remove();
