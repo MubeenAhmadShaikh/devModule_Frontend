@@ -112,7 +112,7 @@
         formData.append('source_link', source_link.value);
         // console.log(formData)
         e.preventDefault();
-        let response = await fetch('http://127.0.0.1:8000/projects/create-project', {
+        let response = await fetch(BASE_URL+'projects/create-project', {
             headers: {
                 "Authorization":sessionStorage.getItem("token"),
             },  
@@ -129,24 +129,6 @@
         }
         
     };
-
-    // deleteBtn.onclick =async (e) => {
-    // e.preventDefault();
-    // let skillName = document.getElementById('name').value;
-    // let skillDescription = document.getElementById('description').value;
-    // data = {'name':skillName,'description':skillDescription};
-    // let response = await fetch('http://127.0.0.1:8000/skills/update-skill/'+id, {
-    //   method: 'put',
-    //   headers:myHeaders,  
-    //   body: JSON.stringify(data),
-
-    // });
-
-    // let result = await response.json();
-    //     console.log(result);
-    //     alert("Updated Skill");
-    //     window.location.replace('/account.html')
-    //    };
     </script>
 </body>
 

@@ -102,7 +102,7 @@
   });
     let token = sessionStorage.getItem("token");
     async function main(){
-      const response = await fetch('http://127.0.0.1:8000/developers/account', {
+      const response = await fetch(BASE_URL+'developers/account', {
       method: 'GET',
       headers: myHeaders,
         });
@@ -117,7 +117,7 @@
     async function deleteProject(id){
         del = confirm("You are about to Delete this project")
         if(del){
-            let response = await fetch('http://127.0.0.1:8000/projects/delete-project/'+id, {
+            let response = await fetch(BASE_URL+'projects/delete-project/'+id, {
             method: 'delete',
             headers:myHeaders,  
             });
@@ -131,7 +131,7 @@
     async function deleteProfile(){
         del = confirm("You are about to Delete Your Account")
         if(del){
-            let response = await fetch('http://127.0.0.1:8000/developers/deactivate-account', {
+            let response = await fetch(BASE_URL+'developers/deactivate-account', {
             method: 'delete',
             headers:myHeaders,  
             });

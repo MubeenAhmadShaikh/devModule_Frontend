@@ -83,7 +83,7 @@
         let skillDescription = document.getElementById('description').value;
         e.preventDefault();
         data = {'name':skillName,'description':skillDescription};
-        let response = await fetch('http://127.0.0.1:8000/skills/create-skill/', {
+        let response = await fetch(BASE_URL+'skills/create-skill/', {
         method: 'post',
         headers:myHeaders,  
         body: JSON.stringify(data),
@@ -98,24 +98,6 @@
             window.location.replace('/account.html')
         }
     };
-
-    // deleteBtn.onclick =async (e) => {
-    // e.preventDefault();
-    // let skillName = document.getElementById('name').value;
-    // let skillDescription = document.getElementById('description').value;
-    // data = {'name':skillName,'description':skillDescription};
-    // let response = await fetch('http://127.0.0.1:8000/skills/update-skill/'+id, {
-    //   method: 'put',
-    //   headers:myHeaders,  
-    //   body: JSON.stringify(data),
-
-    // });
-
-    // let result = await response.json();
-    //     console.log(result);
-    //     alert("Updated Skill");
-    //     window.location.replace('/account.html')
-    //    };
     </script>
 </body>
 

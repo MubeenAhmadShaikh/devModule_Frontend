@@ -69,7 +69,7 @@
           </div>
           <div class="auth__actions">
             <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
-            <a href="forgetpassword.html">Forget Password?</a>
+            <!-- <a href="forgetpassword.html">Forget Password?</a> -->
           </div>
         </form>
         <div class="auth__alternative">
@@ -79,33 +79,19 @@
       </div>
     </div>
 <script type="text/javascript">
-  //  sessionStorage.clear();
-  //   formElem.onsubmit = async (e) => {
-  //   e.preventDefault();
-  //   let response = await fetch('https://still-harbor-79180.herokuapp.com/login', {
-  //     method: 'POST',
-  //     body: new FormData(formElem)
-  //   })
-  //   let result = await response.json();
-  //   console.log(result['detail']);
-  //      if(result['detail']=="Invalid Credentials"||result['detail']=="Incorrect Password"){
-  //       alert("wrong username or password");
-  //      }
-  //      else{
-  //       sessionStorage.setItem("token","Bearer ".concat(result['access_token'] ));
-  //       console.log(sessionStorage.getItem("token"));
-  //       window.location.href="home.html";
-  //      }
 
-
-    sessionStorage.clear();
-    loginForm.onsubmit = async (e) => {
+    
+    let token = sessionStorage.getItem("token");
+    if (token){
+      window.location.replace('index.html');
+    }else{
+      loginForm.onsubmit = async (e) => {
       e.preventDefault();
       var form = document.querySelector("#loginForm");
       let email = form.querySelector('input[name="username"]').value
       let password = form.querySelector('input[name="password"]').value 
       data = {'username':email,'password':password}
-      let response = await fetch('http://127.0.0.1:8000/login', {
+      let response = await fetch(BASE_URL+'login', {
           method: 'POST',
           body: new FormData(loginForm),
         })
@@ -118,18 +104,11 @@
         sessionStorage.setItem("token","Bearer ".concat(result['access_token'] ));
         console.log(result['access_token'])
         alert("logged in")
-        // window.location.href ="index.html" ;
         window.location.replace("index.html")
-        // document.cookie =`access_token =Bearer ${result['access_token']}`;
-        // console.log(sessionStorage.getItem("token"));
-        // a = confirm("Logged In successFully. Please update your profile");
-        // if(a){
-        //   window.location.replace('account.html')
-        // }else{
-        //   window.location.href="index.html";
-        // }
        }
     };
+    }
+    
 </script>
   </body>
 </html>

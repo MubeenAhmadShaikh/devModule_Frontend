@@ -77,11 +77,11 @@
     var id = url.substring(url.lastIndexOf('=') + 1);
     async function main(){
       if(!token){
-        const response = await fetch('http://127.0.0.1:8000/developers/profile-explore/'+id);
+        const response = await fetch(BASE_URL+'developers/profile-explore/'+id);
         const data = await response.json();
         showSingleDeveloper(data);
       }else{
-        const response = await fetch('http://127.0.0.1:8000/developers/profile/'+id, {
+        const response = await fetch(BASE_URL+'developers/profile/'+id, {
           method: 'GET',
           headers: myHeaders,
         });
@@ -89,48 +89,12 @@
       updateNavBar(token);
       showSingleDeveloper(data);
       }
-
     }
 
     main();
-    // Without Async
-    //   if (!token){
-    //     let apidata = fetch('http://127.0.0.1:8000/developers/profile-explore/'+id)
-    //   .then((apidata)=>{
-    //     return apidata.json();
-    //   })
-    //   .then((actualdata)=>{
-    //     showSingleDeveloper(actualdata);
-    //   }).catch((error=>console.log(error)));
-    //   }else{
-    //   let apidata = fetch('http://127.0.0.1:8000/developers/profile/'+id, {
-    //         method: 'GET',
-    //         headers: myHeaders,
-    //       })
-    //     .then((apidata)=>{
-    //       return apidata.json();
-    //   })
-    //   .then((actualdata)=>{
-    //     updateNavBar(actualdata['user']);
-    //     showSingleDeveloper(actualdata);
-    //   })
-    //   .catch((error=>console.log(error)));
-    // };
   </script>
   
   </body>
   
   </html>
 
-
-  <!-- #UPDATE - 
-  1. Pagination
-  2. Search queries 
-  3. Validation
-  4. Static files upload 
-  5. Comments/Reviews 
-  6. Positive Feedback
-  7. Email verification
-  8. Cloud hosting 
-  9. After registration user should be redirected to Update profile page
--->

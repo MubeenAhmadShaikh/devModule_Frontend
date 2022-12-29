@@ -81,7 +81,7 @@
     let url = window.location.href
     var id = url.substring(url.lastIndexOf('=') + 1);
     async function main(){
-      const response = await fetch('http://127.0.0.1:8000/skills/single-skill/'+id, {
+      const response = await fetch(BASE_URL+'skills/single-skill/'+id, {
       method: 'GET',
       headers: myHeaders,
         });
@@ -101,7 +101,7 @@
     let skillName = document.getElementById('name').value;
     let skillDescription = document.getElementById('description').value;
     data = {'name':skillName,'description':skillDescription};
-    let response = await fetch('http://127.0.0.1:8000/skills/update-skill/'+id, {
+    let response = await fetch(BASE_URL+'skills/update-skill/'+id, {
       method: 'put',
       headers:myHeaders,  
       body: JSON.stringify(data),
@@ -119,7 +119,7 @@
     async function deleteSkill(){
         a = confirm("You are about to Delete skill")
         if(a){
-            let response = await fetch('http://127.0.0.1:8000/skills/delete-skill/'+id, {
+            let response = await fetch(BASE_URL+'skills/delete-skill/'+id, {
             method: 'delete',
             headers:myHeaders,  
             });

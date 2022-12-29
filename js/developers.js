@@ -262,7 +262,7 @@ devProjectsContainer.innerHTML = devprojects;
 // --------------- Function to show searched developers profile -------------------
 async function searchDevelopers(query,token){
   if(!token){
-    const response = await fetch('http://127.0.0.1:8000/developers/developers-explore?query='+query, {
+    const response = await fetch(BASE_URL+'developers/developers-explore?query='+query, {
           method: 'GET',
         });
         const data = await response.json();
@@ -274,7 +274,7 @@ async function searchDevelopers(query,token){
           console.log("NO data found")
         }
   }else{
-    const response = await fetch('http://127.0.0.1:8000/developers?query='+query, {
+    const response = await fetch(BASE_URL+'developers?query='+query, {
           method: 'GET',
           headers: myHeaders,
         });

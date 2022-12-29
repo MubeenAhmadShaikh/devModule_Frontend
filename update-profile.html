@@ -161,7 +161,7 @@
     let social_youtube = document.getElementById('youtube');
     let social_website = document.getElementById('website');
     async function main(){
-      const response = await fetch('http://127.0.0.1:8000/developers/profile/'+id, {
+      const response = await fetch(BASE_URL+'developers/profile/'+id, {
       method: 'GET',
       headers: myHeaders,
         });
@@ -205,7 +205,7 @@
     formData.append('social_youtube', social_youtube.value);
     formData.append('social_website', social_website.value);
     
-    let response = await fetch('http://127.0.0.1:8000/developers/update-profile', {
+    let response = await fetch(BASE_URL+'developers/update-profile', {
       method: 'put',
       headers: {
                 "Authorization":sessionStorage.getItem("token"),

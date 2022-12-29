@@ -187,7 +187,7 @@ function addComment(id){
       'comment':comment.value
     }
     console.log(data)
-    let response = await fetch('http://127.0.0.1:8000/add-review?id='+id, {
+    let response = await fetch(BASE_URL+'add-review?id='+id, {
         headers: myHeaders,  
         method: 'Post',
         body: JSON.stringify(data),
@@ -205,7 +205,7 @@ function addComment(id){
 // ------------- Function to show searched project details ------------------
 async function searchProjects(query,token){
   if(!token){
-    const response = await fetch('http://127.0.0.1:8000/projects/projects-explore?query='+query, {
+    const response = await fetch(BASE_URL+'projects/projects-explore?query='+query, {
           method: 'GET',
         });
         const data = await response.json();
@@ -216,7 +216,7 @@ async function searchProjects(query,token){
           
         }
   }else{
-    const response = await fetch('http://127.0.0.1:8000/projects?query='+query, {
+    const response = await fetch(BASE_URL+'projects?query='+query, {
           method: 'GET',
           headers: myHeaders,
         });

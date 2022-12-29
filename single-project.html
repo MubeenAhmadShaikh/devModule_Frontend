@@ -61,15 +61,18 @@
 <script type="text/javascript">
   let token = sessionStorage.getItem("token");
   let url = window.location.href
-  var id = url.substring(url.lastIndexOf('=') + 1);
+  // var id = url.substring(url.lastIndexOf('=') + 1);
+  var url_for_id = new URL(url);
+  var id = url_for_id.searchParams.get('id');
+  console.log(id)
   async function main(){
       if(!token){
-        const response = await fetch('http://127.0.0.1:8000/projects/project-explore/'+id);
+        const response = await fetch(BASE_URL+'projects/project-explore/'+id);
         const data = await response.json();
         showSingleProject(data);
         
       }else{
-        const response = await fetch('http://127.0.0.1:8000/projects/project/'+id, {
+        const response = await fetch(BASE_URL+'projects/project/'+id, {
           method: 'GET',
           headers: myHeaders,
         });
@@ -82,29 +85,6 @@
     }
 
     main();
-  //   if (!token){
-  //     let apidata = fetch('http://127.0.0.1:8000/projects/project-explore/'+id)
-  //   .then((apidata)=>{
-  //     return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     //#UPDATE - Write showProject Detail function 
-  //     showSingleProject(actualdata);
-  //   }).catch((error=>console.log(error)));
-  //   }else{
-  //   let apidata = fetch('http://127.0.0.1:8000/projects/project/'+id, {
-  //         method: 'GET',
-  //         headers: myHeaders,
-  //       })
-  //     .then((apidata)=>{
-  //       return apidata.json();
-  //   })
-  //   .then((actualdata)=>{
-  //     updateNavBar(actualdata['user']);
-  //     showSingleProject(actualdata);
-  //   })
-  //   .catch((error=>console.log(error)));
-  // };
 </script>
 
 </body>

@@ -104,7 +104,7 @@
     let srcLink = document.getElementById('srcLink')
     let demoLink = document.getElementById('demoLink')
     async function main(){
-      const response = await fetch('http://127.0.0.1:8000/projects/project/'+id, {
+      const response = await fetch(BASE_URL+'projects/project/'+id, {
       method: 'GET',
       headers: myHeaders,
         });
@@ -136,7 +136,7 @@
     formData.append('demo_link', demoLink.value);
     formData.append('source_link', srcLink.value);
     e.preventDefault();
-    let response = await fetch('http://127.0.0.1:8000/projects/update-project/'+id, {
+    let response = await fetch(BASE_URL+'projects/update-project/'+id, {
       method: 'put',
       headers: {
                 "Authorization":sessionStorage.getItem("token"),

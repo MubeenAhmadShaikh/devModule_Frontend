@@ -96,6 +96,10 @@
       </div>
     </div>
     <script type="text/javascript">
+    let token = sessionStorage.getItem("token");
+    if (token){
+      window.location.replace('index.html');
+    }else{
       sessionStorage.clear();
       let myHeaders = new Headers();
       myHeaders.append('Content-Type','application/json');
@@ -110,7 +114,7 @@
         let password = form.querySelector('input[name="password"]').value 
         data = {'first_name':first_name,'last_name':last_name,'username':email,'password':password}
         console.log(JSON.stringify(data));
-        let response = await fetch('http://127.0.0.1:8000/register', {
+        let response = await fetch(BASE_URL+'register', {
                 method: 'POST',
                 headers: myHeaders,
                 body: JSON.stringify(data),
@@ -126,7 +130,7 @@
         }
       };
 
-      
+    }
     </script>
   </body>
 </html>
