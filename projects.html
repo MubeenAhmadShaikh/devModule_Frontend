@@ -78,33 +78,15 @@
       </div>
     </section>
 
-    <!-- <div class="pagination">
-      <ul class="container">
-        <li><a href="#" class="btn btn--disabled">&#10094; Prev</a></li>
-        <li><a href="#" class="btn btn--sub">01</a></li>
-        <li><a href="#" class="btn">02</a></li>
-        <li><a href="#" class="btn">03</a></li>
-        <li><a href="#" class="btn">04</a></li>
-        <li><a href="#" class="btn">05</a></li>
-        <li><a href="#" class="btn">06</a></li>
-        <li><a href="#" class="btn">07</a></li>
-        <li><a href="#" class="btn">08</a></li>
-        <li><a href="#" class="btn">09</a></li>
-        <li><a href="#" class="btn">10</a></li>
-        <li><a href="#" class="btn">Next &#10095;</a></li>
-      </ul>
-    </div> -->
+   
   </main>
 
   <script type="text/javascript">
-    //   $(window).load(function() {
-    //   // Animate loader off screen
-    //   $(".loading").fadeOut("slow");;
-    // });
     let url = window.location.href
-    const query = url.substring(url.lastIndexOf('=') + 1);
     let token = sessionStorage.getItem("token");
-
+    const url_for_search =  new URL(url)
+    const search_query = url_for_search.searchParams.get('query');
+    
 
     async function showProjectUnauthenticated(paginationlink){
     const response = await fetch('http://127.0.0.1:8000/projects/projects-explore'+paginationlink, {
@@ -136,22 +118,21 @@
   
     async function main(){
       if(!token){
-        if(!query.endsWith('html')){
-          searchProjects(query,token);
+        if(search_query){
+          searchProjects(search_query,token);
         }else{
           showProjectUnauthenticated('?page_start=1&page_end=3');
         }
       }else{
-        if(!query.endsWith('html')){
-          searchProjects(query,token);
+        if(search_query){
+          searchProjects(search_query,token);
         }else{
           showProjectAuthenticated('?page_start=1&page_end=3');
       }
 
     }
   }
-  
- 
+
     main();
       
     

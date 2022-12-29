@@ -7,7 +7,7 @@ function showProjects(data){
   console.log(data)
     let projectCard = document.querySelector('#projectCard')
       let s = ""
-      data['data'].forEach((project,i)=>{
+      data['projects'].forEach((project,i)=>{
           s += `<div class="column">
             <div class="card project">
               <a href='single-project.html?id=${project.id}'  id="prj" class="project">
@@ -147,7 +147,7 @@ if(reviews.length != 0){
 }
 
 };
-
+// ------------- Function to add comment form ------------------
 function commentForm(token,id){
   let commentContainer = document.querySelector('#commentForm');
   if (!token){
@@ -174,7 +174,7 @@ function commentForm(token,id){
     commentContainer.innerHTML = comment
   }
 };
-
+// ------------- Function to POST Comment  ------------------
 function addComment(id){
   let commentForm = document.querySelector("#addComment");
   commentForm.onsubmit = async (e) => {
@@ -202,7 +202,7 @@ function addComment(id){
     }
   };
 }
-
+// ------------- Function to show searched project details ------------------
 async function searchProjects(query,token){
   if(!token){
     const response = await fetch('http://127.0.0.1:8000/projects/projects-explore?query='+query, {
@@ -213,10 +213,10 @@ async function searchProjects(query,token){
           showProjects(data);
         }else{
           document.querySelector("#projectsContainer").innerHTML = "<h2>No Project exist with such details </h2>"
-          console.log("NO data found")
+          
         }
   }else{
-    const response = await fetch('http://127.0.0.1:8000/projects/?query='+query, {
+    const response = await fetch('http://127.0.0.1:8000/projects?query='+query, {
           method: 'GET',
           headers: myHeaders,
         });
@@ -224,7 +224,7 @@ async function searchProjects(query,token){
         console.log(data)
         if(data['projects'].length != 0){
           showProjects(data);
-          updateNavBar(data['user'])
+          updateNavBar(token)
           
         }else{
           document.querySelector("#projectsContainer").innerHTML = "<h2>No Project exist with such details </h2>"

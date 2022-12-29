@@ -79,15 +79,14 @@ function showDevelopers(data){
               if(token){
                 return `<!-- Load more-->
                 <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
-                
-                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showDevelopersAuthenticated('${data.pagination.next}')">Load more <i class="bi bi-cloud-arrow-down"></i></a>
-                        </div>
+                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showDevelopersAuthenticated('${data.pagination.next}')">Load more <i class="bi bi-arrow-repeat"></i></a>
+                  </div>
                 `;
               }else{
                 return `<!-- Load more-->
-                <div class="flex justify-center mt-6" id="toggle">
-                        <button class="btn btn--sub--outline" onclick="showDevelopersUnauthenticated('${data.pagination.next}')">Load more...</button>
-                </div>
+                <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
+                        <a class="btn btn--sub--outline" style="margin-bottom:1em;align-items:center;" onclick="showDevelopersUnauthenticated('${data.pagination.next}')">Load more <i class="bi bi-arrow-repeat"></i></a>
+                  </div>
                 <br>`;
               }
                 
@@ -260,6 +259,7 @@ devProjectsContainer.innerHTML = devprojects;
 };
 
 
+// --------------- Function to show searched developers profile -------------------
 async function searchDevelopers(query,token){
   if(!token){
     const response = await fetch('http://127.0.0.1:8000/developers/developers-explore?query='+query, {
@@ -274,7 +274,7 @@ async function searchDevelopers(query,token){
           console.log("NO data found")
         }
   }else{
-    const response = await fetch('http://127.0.0.1:8000/developers/?query='+query, {
+    const response = await fetch('http://127.0.0.1:8000/developers?query='+query, {
           method: 'GET',
           headers: myHeaders,
         });
@@ -282,7 +282,7 @@ async function searchDevelopers(query,token){
         console.log(data)
         if(data['profiles'].length != 0){
           showDevelopers(data);
-          updateNavBar(data['user'])
+          updateNavBar(token)
           
         }else{
           document.querySelector("#dev-list").innerHTML = "<h2>No User exist with such details </h2>"
@@ -291,5 +291,6 @@ async function searchDevelopers(query,token){
   }
     
 };
+
 
  

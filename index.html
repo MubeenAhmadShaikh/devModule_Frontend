@@ -74,15 +74,16 @@
   <script type="text/javascript" src="js/developers.js"></script>
   <script type="text/javascript">
     let url = window.location.href
-    const query = url.substring(url.lastIndexOf('=') + 1);
+    const url_for_search =  new URL(url)
+    const search_query = url_for_search.searchParams.get('query');
     let token = sessionStorage.getItem("token");
     
-async function showDevelopersUnauthenticated(paginationlink){
-const response = await fetch('https://devmodule.onrender.com/developers/developers-explore'+paginationlink, {
+  async function showDevelopersUnauthenticated(paginationlink){
+const response = await fetch('http://127.0.0.1:8000/developers/developers-explore'+paginationlink, {
       method: 'GET',
       });
     const data = await response.json();
-    var current_url = new URL('https://devmodule.onrender.com/developers/developers-explore'+paginationlink)
+    var current_url = new URL('http://127.0.0.1:8000/developers/developers-explore'+paginationlink)
 
     if(current_url.searchParams.get('page_start') != '1'){
       document.getElementById('toggle').remove();
@@ -90,7 +91,7 @@ const response = await fetch('https://devmodule.onrender.com/developers/develope
     showDevelopers(data);
 };
 
-async function showDevelopersAuthenticated(paginationlink){
+  async function showDevelopersAuthenticated(paginationlink){
     const response = await fetch('http://127.0.0.1:8000/developers'+paginationlink, {
       method: 'GET',
       headers: myHeaders,
@@ -109,30 +110,17 @@ async function showDevelopersAuthenticated(paginationlink){
 
     async function main(){
       if(!token){
-        if(!query.endsWith('html')){
-          searchDevelopers(query,token);
+        if(search_query){
+          searchDevelopers(search_query,token);
         }else{
           showDevelopersUnauthenticated('?page_start=1&page_end=3')
-        //   const response = await fetch('http://127.0.0.1:8000/developers/developers-explore', {
-        //   method: 'GET',
-        //   });
-        // const data = await response.json();
-        // console.log(data)
-        // showDevelopers(data);
         }
       }else{
-        if(!query.endsWith('html')){
-          searchDevelopers(query,token);
+        // console.log(query1)
+        if(search_query){
+          searchDevelopers(search_query,token);
         }else{
           showDevelopersAuthenticated('?page_start=1&page_end=3')
-      //   const response = await fetch('http://127.0.0.1:8000/developers', {
-      //     method: 'GET',
-      //     headers: myHeaders,
-      //   });
-      // const data = await response.json();
-      // console.log(data)
-      // updateNavBar(token);
-      // showDevelopers(data);
       }
 
     }
