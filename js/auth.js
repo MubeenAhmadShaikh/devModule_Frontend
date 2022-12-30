@@ -5,9 +5,17 @@ const BASE_URL = 'https://devmodule-production.up.railway.app/'
 let myHeaders = new Headers();
 myHeaders.append("Authorization",sessionStorage.getItem("token"));
 myHeaders.append('Content-Type','application/json');
+
+
 //  ----------- To limit the number data/string to show ---------
 function limit (string = '', limit = 0) {  
   return string.substring(0, limit)
+}
+function showloader() {
+    $(".loading").show();
+}
+function hideloader() {
+    $(".loading").fadeOut("slow");;
 }
 // ----------------- Function for authorization of user ------------------
 function verify() {

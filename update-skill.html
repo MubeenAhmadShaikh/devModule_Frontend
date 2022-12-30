@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
 
     <link rel="stylesheet" href="styles/app.css" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
     <script src="js/auth.js"></script>
     <title>DevModule - Connect with Developers!</title>
 </head>
@@ -38,7 +40,15 @@
             </nav>
         </div>
     </header>
-
+    <div class="loading">
+        <div class="loading__loader" id="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
@@ -76,6 +86,9 @@
     </main>
 
 <script type="text/javascript">
+    $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
     let token = sessionStorage.getItem("token");
     updateNavBar(token)
     let url = window.location.href
@@ -88,8 +101,10 @@
       const data = await response.json();
       let skill = document.querySelector("#name");
       let description = document.querySelector("#description");
-      console.log(description);
-      skill.setAttribute("value",data.name)
+      
+      if(data.name){
+        skill.setAttribute("value",data.name)
+        }
       description.innerHTML = data.description
       
     }
@@ -109,7 +124,6 @@
     });
 
     let result = await response.json();
-        console.log(result);
         alert("Updated Skill");
         window.location.replace('/account.html')
        };
@@ -124,7 +138,6 @@
             headers:myHeaders,  
             });
             let result = await response.json();
-            console.log(result);
             alert("Skill Deleted");
             window.location.href='/account.html'
         }  

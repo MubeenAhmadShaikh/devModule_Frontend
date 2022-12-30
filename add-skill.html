@@ -10,8 +10,13 @@
     <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
     <link rel="stylesheet" href="styles/app.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
     <script src="js/auth.js"></script>
+    
     <title>DevModule - Connect with Developers!</title>
+
 </head>
 
 <body onload="verify()">
@@ -36,7 +41,15 @@
             </nav>
         </div>
     </header>
-
+    <div class="loading">
+        <div class="loading__loader" id="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
@@ -49,7 +62,7 @@
                     <div class="form__field">
                         <label for="formInput#text">Skill</label>
                         <input class="input input--text" id="name" type="text" name="text"
-                            placeholder="Enter text" value="" />
+                            placeholder="Enter text" value="" required/>
                     </div>
 
                     <!-- Input:Text -->
@@ -72,9 +85,10 @@
         </div>
     </main>
 
-<script type="text/javascript" src="js/auth.js"></script>
 <script type="text/javascript">
-
+     $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
     let token = sessionStorage.getItem("token");
     updateNavBar(token);
     let skillForm = document.querySelector("#skillForm");
@@ -82,15 +96,17 @@
         let skillName = document.getElementById('name').value;
         let skillDescription = document.getElementById('description').value;
         e.preventDefault();
+        showloader();
         data = {'name':skillName,'description':skillDescription};
         let response = await fetch(BASE_URL+'skills/create-skill/', {
-        method: 'post',
+        method: 'Post',
         headers:myHeaders,  
         body: JSON.stringify(data),
 
         });
 
         let result = await response.json();
+        hideloader();
         if(response.status != 201){
             alert(result.detail);
         }else{

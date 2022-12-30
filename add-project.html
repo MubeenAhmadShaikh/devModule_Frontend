@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
     <link rel="stylesheet" href="styles/app.css" />
     <script src="js/auth.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
     <title>DevModule - Connect with Developers!</title>
 </head>
 
@@ -36,7 +39,15 @@
             </nav>
         </div>
     </header>
-
+    <div class="loading">
+        <div class="loading__loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
@@ -53,7 +64,8 @@
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Cover Image</label>
-                        <input class="input input--text" id="featured_image" type="file" name="featured_image" required/>
+                        <input class="input input--text" id="featured_image" type="file" onchange="onFileSelected(event)" name="featured_image" required/>
+                        <img src="/images/default-project.jpg" alt="Project Cover Image" id="img_src">
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Description</label>
@@ -62,7 +74,7 @@
                         name="description"
                         id="description"
                         placeholder="Write something awesome..."
-                        
+                        required
                       ></textarea>
                     </div>
                     <div class="form__field">
@@ -89,8 +101,13 @@
         </div>
     </main>
 
-<script src="js/auth.js"></script>
 <script type="text/javascript">
+   $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
+
+  
+
     let token = sessionStorage.getItem("token");
     let projectForm = document.querySelector("#projectForm");
    updateNavBar(token);
@@ -110,8 +127,8 @@
         formData.append('description', description.value);
         formData.append('demo_link', demo_link.value);
         formData.append('source_link', source_link.value);
-        // console.log(formData)
         e.preventDefault();
+        showloader();
         let response = await fetch(BASE_URL+'projects/create-project', {
             headers: {
                 "Authorization":sessionStorage.getItem("token"),
@@ -119,16 +136,30 @@
             method: 'Post',
             body: formData,
         });
+        
         if(response.status != 201){
             alert("Unable to Add your project!")
         }else{
             let result = await response.json();
-            console.log(result);
+            hideloader();
             alert("Project Added");
             window.location.replace('/account.html')
         }
         
+        
     };
+    function onFileSelected(event) {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
+
+    var imgtag = document.getElementById("img_src");
+
+    reader.onload = function (event) {
+        imgtag.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedFile);
+}
     </script>
 </body>
 

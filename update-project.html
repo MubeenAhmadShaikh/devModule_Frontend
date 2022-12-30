@@ -10,7 +10,9 @@
     <link rel="shortcut icon" href="images/logo-icon.svg" type="image/x-icon" />
     <link rel="stylesheet" href="uikit/styles/uikit.css" />
     <link rel="stylesheet" href="styles/app.css" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
     <script src="js/auth.js"></script>
     <title>DevModule - Connect with Developers!</title>
 </head>
@@ -37,7 +39,15 @@
             </nav>
         </div>
     </header>
-
+    <div class="loading">
+        <div class="loading__loader" id="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
@@ -56,9 +66,9 @@
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Cover Image</label>
-                        <input class="input input--text" id="featured_image" type="file" name="featured_image" required/>
+                        <input class="input input--text" id="featured_image" type="file" onchange="onFileSelected(event)" name="featured_image" required/>
                         <br/>
-                        <img src="" alt="Project Cover Image" id="image_src">
+                        <img src="" alt="Project Cover Image" id="img_src">
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Description</label>
@@ -91,6 +101,9 @@
         </div>
     </main>
 <script type="text/javascript">
+    $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
     let token = sessionStorage.getItem("token");
     updateNavBar(token);
     let url = window.location.href
@@ -98,7 +111,7 @@
 
     let projectTitle = document.getElementById('title')
     let featured_image = document.querySelector('input[type="file"]')
-    let prev_image = document.getElementById('image_src')
+    let prev_image = document.getElementById('img_src')
     let projectDescription = document.getElementById('description')
     let srcLink = document.getElementById('srcLink')
     let demoLink = document.getElementById('demoLink')
@@ -115,12 +128,16 @@
         }else{
             const data = await response.json();   
             project = data['project'] 
-            console.log(data)
             projectTitle.setAttribute("value",project.title)
             prev_image.setAttribute("src",project.featured_image)
             projectDescription.innerHTML = project.description
-            srcLink.setAttribute("value",project.source_link)
-            demoLink.setAttribute("value",project.demo_link)
+
+            if(project.source_link){
+                srcLink.setAttribute("value",project.source_link);
+            }
+            if(project.demo_link){
+                demoLink.setAttribute("value",project.demo_link);
+            }
         }
       
     }
@@ -135,6 +152,7 @@
     formData.append('demo_link', demoLink.value);
     formData.append('source_link', srcLink.value);
     e.preventDefault();
+    showloader();
     let response = await fetch(BASE_URL+'projects/update-project/'+id, {
       method: 'put',
       headers: {
@@ -146,12 +164,23 @@
         alert("Unable to update your project details!!");
     }else{
         let result = await response.json();
-        console.log(result);
+        hideloader();
         alert("Project Updated");
         window.location.replace('/account.html')
     }
 };
+function onFileSelected(event) {
+    var selectedFile = event.target.files[0];
+    var reader = new FileReader();
 
+    var imgtag = document.getElementById("img_src");
+
+    reader.onload = function (event) {
+        imgtag.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedFile);
+}
 
    
     

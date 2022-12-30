@@ -12,8 +12,12 @@
   
   <link rel="stylesheet" href="uikit/styles/uikit.css" />
   <link rel="stylesheet" href="styles/app.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
   <script type="text/javascript" src="js/auth.js"></script>
   <script type="text/javascript" src="js/projects.js"></script>
+
   <title>DevModule - Connect with Developers!</title>
 </head>
 
@@ -69,6 +73,15 @@
         </div>
       </div>
     </section>
+    <div class="loading">
+      <div class="loading__loader" id="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
     <!-- Search Result: DevList -->
     <section class="projectsList">
       <div class="container" id="projectsContainer">
@@ -82,6 +95,9 @@
   </main>
 
   <script type="text/javascript">
+    $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
     let url = window.location.href
     let token = sessionStorage.getItem("token");
     const url_for_search =  new URL(url)

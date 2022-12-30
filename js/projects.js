@@ -186,7 +186,6 @@ function addComment(id){
       'vote_value':vote_value.value,
       'comment':comment.value
     }
-    console.log(data)
     let response = await fetch(BASE_URL+'add-review?id='+id, {
         headers: myHeaders,  
         method: 'Post',
@@ -221,14 +220,13 @@ async function searchProjects(query,token){
           headers: myHeaders,
         });
         const data = await response.json();
-        console.log(data)
         if(data['projects'].length != 0){
           showProjects(data);
           updateNavBar(token)
           
         }else{
           document.querySelector("#projectsContainer").innerHTML = "<h2>No Project exist with such details </h2>"
-          console.log("NO data found")
+          
         }
   }
     

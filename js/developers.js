@@ -9,11 +9,8 @@ function showDevelopers(data){
     let profileCard = document.querySelector('#dev-list');
     let description = ''
     let intro = ''
-    // console.log(data['profiles']['3']['skill']['0'].name);
     
     let s=""
-    console.log(data)
-    console.log(data['profiles'])
     data['profiles'].forEach((profile,i)=>{
       if(profile.bio){
         description =limit(profile.bio, 180);
@@ -178,7 +175,6 @@ devinfo += ` <div class="card__body ">
 devInfoContainer.innerHTML = devinfo;
 let aboutDevContainer = document.querySelector('.aboutdev')
 let aboutdev= ""
-console.log(profile.bio)
 if (!profile.bio){
 aboutdev += `<h3 class='devInfo__title'>About Me</h3>
 <h6 class='devSkill__title'>No description</h6>`
@@ -266,12 +262,11 @@ async function searchDevelopers(query,token){
           method: 'GET',
         });
         const data = await response.json();
-        console.log(data)
         if(data['profiles'].length != 0){
           showDevelopers(data);
         }else{
           document.querySelector("#dev-list").innerHTML = "<h2>No User exist with such details </h2>"
-          console.log("NO data found")
+          
         }
   }else{
     const response = await fetch(BASE_URL+'developers?query='+query, {
@@ -279,14 +274,13 @@ async function searchDevelopers(query,token){
           headers: myHeaders,
         });
         const data = await response.json();
-        console.log(data)
         if(data['profiles'].length != 0){
           showDevelopers(data);
           updateNavBar(token)
           
         }else{
           document.querySelector("#dev-list").innerHTML = "<h2>No User exist with such details </h2>"
-          console.log("NO data found")
+          
         }
   }
     
@@ -297,8 +291,6 @@ async function searchDevelopers(query,token){
 function showAccountDetails(data){
   let profile = data['profile'];
   let projects = profile.project
-  // console.log(!profile.skill.length)
-  // let skills = profile.skill
   let pfp_image;
   if (profile.profile_image){
     pfp_image = profile.profile_image
@@ -393,7 +385,6 @@ if(!profile.skill.length){
   majorSkillsContainer.innerHTML = "<h6 class='devSkill__title'>No skills mentioned</h6><br>";
   // extraSkillsContainer.innerHTML = "<h6 class='devSkill__title'>No skills mentioned</h6>";
 }else{
-  console.log(data['profile']['skill'])
   data['profile']['skill'].forEach((skill,i)=>{
     majorskills += `<a href="update-skill.html?id=${skill.id}">
     <span class="tag tag--pill tag--sub tag--lg">

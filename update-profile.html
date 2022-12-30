@@ -12,32 +12,9 @@
     <link rel="stylesheet" href="styles/app.css" />
     <title>DevModule - Connect with Developers!</title>
     <script type="text/javascript" src="js/auth.js"></script>
-    <style>
-        #loader {
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid #444444;
-            width: 70px;
-            height: 70px;
-            animation: spin 1s linear infinite;
-            visibility: none;
-        }
-          
-        @keyframes spin {
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-          
-        .center {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin: auto;
-        }
-    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+	
 </head>
 
 <body onload="verify();">
@@ -62,7 +39,15 @@
             </nav>
         </div>
     </header>
-
+    <div class="loading">
+        <div class="loading__loader" id="loader">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     <!-- Main Section -->
     <main class="formPage my-xl">
         <div class="content-box">
@@ -84,7 +69,7 @@
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Profile Picture</label>
-                        <input class="input input--text" id="profile_image" type="file" onchange="onFileSelected(event)" name="profile_image"/>
+                        <input class="input input--text" id="profile_image" type="file" onchange="onFileSelected(event)" name="profile_image" required/>
                         <br/>
                         <br/>
                         <img class="avatar avatar--xl" src="images/default-profile.png" onchange="" id="img_src"/>
@@ -92,12 +77,12 @@
                     <div class="form__field">
                         <label for="formInput#text">Short Intro</label>
                         <input class="input input--text" id="shortIntro" type="text" name="text"
-                            placeholder="Enter text" value="" />
+                            placeholder="Enter text" value="" required />
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Location</label>
                         <input class="input input--text" id="location" type="text" name="text"
-                            placeholder="Enter text" value="" />
+                            placeholder="Enter text" value="" required/>
                     </div>
                     <div class="form__field">
                         <label for="formInput#text">Bio</label>
@@ -106,7 +91,7 @@
                         name="message"
                         id="bio"
                         placeholder="Write something awesome..."
-                        
+                        required
                       ></textarea>
                     </div>
                     <div class="form__field">
@@ -142,8 +127,10 @@
         </div>
     </main>
 
-<script src="js/auth.js"></script>
 <script type="text/javascript">
+    $(window).load(function() {
+    $(".loading").fadeOut("slow");;
+  });
     let token = sessionStorage.getItem("token");
     let url = window.location.href
     var id = url.substring(url.lastIndexOf('=') + 1);
@@ -174,15 +161,37 @@
             profile = data['profile'] 
             first_name.setAttribute("value",profile.first_name);
             last_name.setAttribute("value",profile.last_name);
-            short_intro.setAttribute("value",profile.short_intro);
-            prev_profile_image.setAttribute("src",profile.profile_image);
-            user_location.setAttribute("value",profile.location);
-            social_github.setAttribute("value",profile.social_github);
-            social_twitter.setAttribute("value",profile.social_twitter);
-            social_linkedin.setAttribute("value",profile.social_linkedin);
-            social_youtube.setAttribute("value",profile.social_youtube);
-            social_website.setAttribute("value",profile.social_website);
-            bio.innerHTML = profile.bio
+            if(profile.short_intro){
+                short_intro.setAttribute("value",profile.short_intro);
+            }
+            if(profile.location){
+                user_location.setAttribute("value",profile.location);
+            }
+            if(profile.social_github){
+                social_github.setAttribute("value",profile.social_github);
+            }
+            if(profile.social_twitter){
+                social_twitter.setAttribute("value",profile.social_twitter);
+            
+            }
+            if(profile.social_linkedin){
+                social_linkedin.setAttribute("value",profile.social_linkedin);
+            
+            }
+            if(profile.social_youtube){
+                social_youtube.setAttribute("value",profile.social_youtube);
+            }
+            if(profile.social_website){
+                social_website.setAttribute("value",profile.social_website);
+            }
+            if(profile.profile_image){
+                prev_profile_image.setAttribute("src",profile.profile_image);
+            }else{
+                prev_profile_image.setAttribute("src",'/images/default-profile.png');
+            }
+            if(profile.bio){
+                bio.innerHTML = profile.bio
+            }
         }
     }
     if(token){
@@ -191,19 +200,20 @@
     } 
     let profileForm = document.querySelector("#profileForm");
     profileForm.onsubmit =async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('first_name', first_name.value);
-    formData.append('last_name', last_name.value);
-    formData.append('profile_image', profile_image.files[0]);
-    formData.append('location', user_location.value);
-    formData.append('short_intro', short_intro.value);
-    formData.append('bio', bio.value);
-    formData.append('social_github', social_github.value);
-    formData.append('social_twitter', social_twitter.value);
-    formData.append('social_linkedin', social_linkedin.value);
-    formData.append('social_youtube', social_youtube.value);
-    formData.append('social_website', social_website.value);
+        e.preventDefault();
+        showloader();
+        const formData = new FormData();
+        formData.append('first_name', first_name.value);
+        formData.append('last_name', last_name.value);
+        formData.append('profile_image', profile_image.files[0]);
+        formData.append('location', user_location.value);
+        formData.append('short_intro', short_intro.value);
+        formData.append('bio', bio.value);
+        formData.append('social_github', social_github.value);
+        formData.append('social_twitter', social_twitter.value);
+        formData.append('social_linkedin', social_linkedin.value);
+        formData.append('social_youtube', social_youtube.value);
+        formData.append('social_website', social_website.value);
     
     let response = await fetch(BASE_URL+'developers/update-profile', {
       method: 'put',
@@ -216,7 +226,7 @@
         alert("Unable to update your profile details!!");
     }else{
         let result = await response.json();
-        console.log(result);
+        hideloader();
         alert("Profile Updated");
         window.location.replace('/account.html')
     }
@@ -234,12 +244,7 @@ function onFileSelected(event) {
 
     reader.readAsDataURL(selectedFile);
 }
-function hideLoader(){
-    document.querySelector("#loader").style.visibility = "hidden";            
-}
-function showLoader(){
-    document.querySelector("#loader").style.visibility = "visible";            
-}
+
 
     </script> 
 

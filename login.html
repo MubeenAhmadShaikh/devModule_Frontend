@@ -53,6 +53,7 @@
               type="text"
               name="username"
               placeholder="Enter your username..."
+              required
             />
           </div>
 
@@ -65,6 +66,7 @@
               type="password"
               name="password"
               placeholder="••••••••"
+              required
             />
           </div>
           <div class="auth__actions">
@@ -97,14 +99,14 @@
           body: new FormData(loginForm),
         })
       let result = await response.json();
-      console.log(result['detail']);
       if(result['detail']=="Something went wrong"||result['detail']=="Incorrect username or password"){
         alert("wrong username or password");
+       }else if(response.status!=200){
+          alert("Something went wrong")
        }
        else{
         sessionStorage.setItem("token","Bearer ".concat(result['access_token'] ));
-        console.log(result['access_token'])
-        alert("logged in")
+        alert("logged in Successfully.")
         window.location.replace("index.html")
        }
     };
