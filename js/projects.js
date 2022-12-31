@@ -113,7 +113,7 @@ if(reviews.length != 0){
           src="${pfp_image}" alt="user" />
       </a>
       <div class="comment__details">
-          <a href="profile.html" class="comment__author">${review.owner.first_name} ${review.owner.last_name}</a>
+          <a href="profile.html?id=${review.owner.id}" class="comment__author">${review.owner.first_name} ${review.owner.last_name}</a>
           <p class="comment__info">
           ${review.comment}
           </p>
