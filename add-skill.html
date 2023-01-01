@@ -24,7 +24,7 @@
     <header class="header">
         <div class="container container--narrow">
             <a href="/" class="header__logo">
-                <img src="images/logo.svg" alt="DevSearch Logo" />
+                <img src="images/logo.svg" alt="DevModule Logo" />
             </a>
             <nav class="header__nav">
                 <input type="checkbox" id="responsive-menu" />
@@ -93,15 +93,20 @@
     updateNavBar(token);
     let skillForm = document.querySelector("#skillForm");
     skillForm.onsubmit =async (e) => {
-        let skillName = document.getElementById('name').value;
-        let skillDescription = document.getElementById('description').value;
+        let skillName = document.getElementById('name');
+        let skillDescription = document.getElementById('description');
+        const formData = new FormData();
+        formData.append('name', skillName.value);
+        // formData.append('description', skillDescription.value);
         e.preventDefault();
         showloader();
-        data = {'name':skillName,'description':skillDescription};
-        let response = await fetch(BASE_URL+'skills/create-skill/', {
+        // data = {'name':skillName,'description':skillDescription};
+        let response = await fetch(BASE_URL+'skills/create-skill?description='+skillDescription.value, {
         method: 'Post',
-        headers:myHeaders,  
-        body: JSON.stringify(data),
+        headers: {
+                "Authorization":sessionStorage.getItem("token"),
+            }, 
+        body: formData,
 
         });
 
@@ -109,6 +114,7 @@
         hideloader();
         if(response.status != 201){
             alert(result.detail);
+            console.log(response)
         }else{
             alert("Added Skill");
             window.location.replace('/account.html')

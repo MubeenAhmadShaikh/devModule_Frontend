@@ -23,7 +23,7 @@
     <header class="header">
         <div class="container container--narrow">
             <a href="/" class="header__logo">
-                <img src="images/logo.svg" alt="DevSearch Logo" />
+                <img src="images/logo.svg" alt="DevModule Logo" />
             </a>
             <nav class="header__nav">
                 <input type="checkbox" id="responsive-menu" />
@@ -101,25 +101,30 @@
       const data = await response.json();
       let skill = document.querySelector("#name");
       let description = document.querySelector("#description");
-      
+      console.log(data)
       if(data.name){
         skill.setAttribute("value",data.name)
         }
-      description.innerHTML = data.description
+        if(data.description){
+          description.innerHTML = data.description
+        }
       
     }
     
     main();
     let skillForm = document.querySelector("#skillForm");
-    skillForm.onsubmit =async (e) => {
+    skillForm.onsubmit =async (e) => {  
     e.preventDefault();
-    let skillName = document.getElementById('name').value;
-    let skillDescription = document.getElementById('description').value;
-    data = {'name':skillName,'description':skillDescription};
-    let response = await fetch(BASE_URL+'skills/update-skill/'+id, {
+    let skillName = document.getElementById('name');
+    let skillDescription = document.getElementById('description');
+    const formData = new FormData();
+    formData.append('name', skillName.value);
+    let response = await fetch(BASE_URL+'skills/update-skill/'+id+'?description='+skillDescription.value, {
       method: 'put',
-      headers:myHeaders,  
-      body: JSON.stringify(data),
+      headers: {
+                "Authorization":sessionStorage.getItem("token"),
+            },  
+      body: formData,
 
     });
 
