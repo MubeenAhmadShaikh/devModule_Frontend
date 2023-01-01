@@ -149,11 +149,12 @@
     formData.append('title', projectTitle.value);
     formData.append('featured_image', featured_image.files[0]);
     formData.append('description', description.value);
-    formData.append('demo_link', demoLink.value);
-    formData.append('source_link', srcLink.value);
+    // formData.append('demo_link', demoLink.value);
+    // formData.append('source_link', srcLink.value);
     e.preventDefault();
     showloader();
-    let response = await fetch(BASE_URL+'projects/update-project/'+id, {
+    let response = await fetch(BASE_URL+'projects/update-project/'+id+'?demo_link='+demoLink.value
+    +'&source_link='+srcLink.value, {
       method: 'put',
       headers: {
                 "Authorization":sessionStorage.getItem("token"),

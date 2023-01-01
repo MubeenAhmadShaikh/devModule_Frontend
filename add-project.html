@@ -125,11 +125,12 @@
         formData.append('title', title.value);
         formData.append('featured_image', featured_image.files[0]);
         formData.append('description', description.value);
-        formData.append('demo_link', demo_link.value);
-        formData.append('source_link', source_link.value);
+        // formData.append('demo_link', demo_link.value);
+        // formData.append('source_link', source_link.value);
         e.preventDefault();
         showloader();
-        let response = await fetch(BASE_URL+'projects/create-project', {
+        let response = await fetch(BASE_URL+'projects/create-project?demo_link='+demo_link.value
+        +'&source_link='+source_link.value, {
             headers: {
                 "Authorization":sessionStorage.getItem("token"),
             },  

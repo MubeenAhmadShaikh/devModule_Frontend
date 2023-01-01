@@ -215,7 +215,11 @@
         formData.append('social_youtube', social_youtube.value);
         formData.append('social_website', social_website.value);
     
-    let response = await fetch(BASE_URL+'developers/update-profile', {
+    let response = await fetch(BASE_URL+'developers/update-profile?social_github='+social_github.value
+    +'&social_twitter='+social_twitter.value
+    +'&social_linkedin='+social_linkedin.value
+    +'&social_youtube='+social_youtube.value
+    +'&social_website='+social_website.value, {
       method: 'put',
       headers: {
                 "Authorization":sessionStorage.getItem("token"),
