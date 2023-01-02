@@ -26,7 +26,7 @@ function showProjects(data){
             </div>
             </div>
             ${(() => {
-              if (i == 2) {
+              if (i == 5) {
                 if(token){
                   return `<!-- Load more-->
                   <div class=" mt-6" style="display:table;margin:auto;" id="toggle">

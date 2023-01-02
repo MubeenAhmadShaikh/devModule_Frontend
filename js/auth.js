@@ -1,6 +1,6 @@
 // ------- Adding the token from sessionStorage to Headers if exist for each request --------
 const LOCALHOST_BASE_URL = 'http://127.0.0.1:8000/'
-// const BASE_URL = 'https://devmodule.onrender.com/'
+// const LOCALHOST_BASE_URL = 'https://devmodule.onrender.com/'
 const BASE_URL = 'https://devmodule-production.up.railway.app/'
 let myHeaders = new Headers();
 myHeaders.append("Authorization",sessionStorage.getItem("token"));

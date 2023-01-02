@@ -72,7 +72,7 @@ function showDevelopers(data){
             </div>
           </div>
           ${(() => {
-            if (i == 2) {
+            if (i == 5) {
               if(token){
                 return `<!-- Load more-->
                 <div class=" mt-6" style="display:table;margin:auto;" id="toggle">
@@ -99,7 +99,27 @@ function showDevelopers(data){
        
           
   };
-  
+// -------------------To add the social link url ---------------------
+function addSocial(socialLink,platform){
+  console.log(socialLink,platform)
+  if(!socialLink){
+      return`<li>
+        <a title="${platform}" href="#">
+        <span>
+        <i class="bi bi-${platform}"></i>
+        </span>
+        </a>
+      </li>`
+    }else{
+      return`<li>
+        <a title="${platform}" href="https://${socialLink}" target="_blank">
+        <span>
+        <i class="bi bi-${platform}"></i>
+        </span>
+        </a>
+      </li>`
+    }
+  }
 // --------------- Function to show single developer profile -------------------
 async function showSingleDeveloper(data){
 let profile = data['profile'];
@@ -127,47 +147,19 @@ if (profile.profile_image != null ){
 }else{
   pfp_image = './images/default-profile.png'
 }
+
+
 devinfo += ` <div class="card__body ">
 <img class="avatar avatar--xl" src="${pfp_image}" />
 <h2 class="dev__name">${profile.first_name} ${profile.last_name}</h2>
 <p class="dev__title">${intro}</p>
 <p class="dev__location">${location}</p>
 <ul class="dev__social">
-    <li>
-    <a title="Github" href="#" target="_blank">
-    <span>
-    <i class="bi bi-github"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="LinkedIn" href="#" target="_blank">
-    <span>
-    <i class="bi bi-linkedin"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="Twitter" href="#" target="_blank">
-    <span>
-    <i class="bi bi-twitter"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="YouTube" href="#" target="_blank">
-    <span>
-    <i class="bi bi-youtube"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="Website" href="#" target="_blank">
-    <span>
-    <i class="bi bi-globe"></i>
-    </span>
-    </a>
-    </li>
+    `+addSocial(profile.social_github,'github')+`
+    `+addSocial(profile.social_linkedin,'linkedin')+`
+    `+addSocial(profile.social_twitter,'twitter')+`
+    `+addSocial(profile.social_youtube,'youtube')+`
+    `+addSocial(profile.social_website,'globe')+`
     
   </ul>
 </div> 
@@ -318,41 +310,11 @@ function showAccountDetails(data){
   <p class="dev__title">${intro}</p>
   <p class="dev__location">${profilelocation}</p>
   <ul class="dev__social">
-    <li>
-    <a title="Github" href="#" target="_blank">
-    <span>
-    <i class="bi bi-github"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="LinkedIn" href="#" target="_blank">
-    <span>
-    <i class="bi bi-linkedin"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="Twitter" href="#" target="_blank">
-    <span>
-    <i class="bi bi-twitter"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="YouTube" href="#" target="_blank">
-    <span>
-    <i class="bi bi-youtube"></i>
-    </span>
-    </a>
-    </li>
-    <li>
-    <a title="Website" href="#" target="_blank">
-    <span>
-    <i class="bi bi-globe"></i>
-    </span>
-    </a>
-    </li>
+  `+addSocial(profile.social_github,'github')+`
+  `+addSocial(profile.social_linkedin,'linkedin')+`
+  `+addSocial(profile.social_twitter,'twitter')+`
+  `+addSocial(profile.social_youtube,'youtube')+`
+  `+addSocial(profile.social_website,'globe')+`
     
   </ul>
   <a href='javascript:;' onclick='deleteProfile();' class="btn btn--del btn--md"><i class="bi bi-x-circle"></i>&nbsp Deactivate Account</a>
